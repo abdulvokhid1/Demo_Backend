@@ -1,6 +1,6 @@
 import { ForbiddenException, Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { AuthDto } from './dto';
+import { AuthDto, AuthRegisterDto } from './dto';
 import * as argon from 'argon2';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
@@ -11,8 +11,15 @@ export class AuthService {
     private jwtService: JwtService,
     private configService: ConfigService,
   ) {}
-  async register(authDTO: AuthDto) {
+  async register(authDTO: AuthRegisterDto) {
     // generate password to hashedPassword
+    const existedUser = await this.prismaService.user.findFirst({
+      where: { email: authDTO.email },
+    });
+    if (existedUser) {
+      throw new ForbiddenException('User already exists');
+    }
+
     const hashedPassword = await argon.hash(authDTO.password);
     // insert data to database
     try {
@@ -20,18 +27,37 @@ export class AuthService {
         data: {
           email: authDTO.email,
           hashedPassword: hashedPassword,
-          firstName: '',
-          lastName: '',
+          name: authDTO.name,
           role: 'user',
+          address: authDTO.address || '',
+          address1: authDTO.address1 || '',
+          addressdoro: authDTO.addressdoro || '',
+          zip1: authDTO.zip1 || '',
+          zip2: authDTO.zip2 || '',
+          option_center: authDTO.option_center || '',
+          zonecode: authDTO.zonecode || '',
+          mobilephone_number: authDTO.mobilephone_number || '',
+          phone_number: authDTO.phone_number || '',
+          recomid: authDTO.recomid || '',
+          sponid: authDTO.sponid || '',
         },
         select: {
           // only return id, email, createdAt
           id: true,
           email: true,
+          name: true,
+          mobilephone_number: true,
           createdAt: true,
         },
       });
-      return this.signJwtToken(user.id, user.email);
+      return {
+        // access_token: this.signJwtToken(user.id, user.email),
+        profile: {
+          name: user.name,
+          email: user.email,
+          mobilephone_number: user.mobilephone_number,
+        },
+      };
     } catch (error) {
       if (error.code == 'P2002') {
         throw new ForbiddenException('Error in credentials');
@@ -75,7 +101,7 @@ export class AuthService {
       email,
     };
     const jwtString = await this.jwtService.signAsync(payload, {
-      expiresIn: '10m',
+      expiresIn: '180m',
       secret: this.configService.get('JWT_SECRET'),
     });
     return {

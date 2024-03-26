@@ -7,6 +7,15 @@ import { UserService } from './user.service';
 @Controller('user')
 export class UserController {
   constructor(private userService: UserService) {}
+
+  @UseGuards(MyJwtGuard)
+  @Get('list')
+  async list() {
+    // console.log(request.user);
+    const users = await this.userService.list();
+    return users;
+  }
+
   // @UseGuards(AuthGuard('jwt'))
   @UseGuards(MyJwtGuard)
   @Get('me')
