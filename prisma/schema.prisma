@@ -1,5 +1,5 @@
 // This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
+// learn more about it in the docs https//pris.ly/d/prisma-schema
 
 generator client {
   provider = "prisma-client-js"
@@ -9,23 +9,40 @@ datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
 }
-//modify Database Scheme
+
+// modify Database Scheme
 model User {
-  id             Int      @id @default(autoincrement())
-  email          String   @unique
+  id             Int     @id @default(autoincrement())
+  member_id      String? @unique
+  email          String  @unique
   hashedPassword String
-  firstName      String?  //can be null(optional)
-  lastName       String?
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
-  //relationship
-  notes          Note[]
-  role          String
+  name           String? // can be null(optional)
 
-  @@map("users") //users id "table's name" in Postgres SQL
+  mobilephone_number String  @default("01000000000")
+  phone_number       String?
+  zip1               String?
+  zip2               String?
+  address            String?
+  address1           String?
+  addressdoro        String?
+  zonecode           String?
+  option_center      String?
+  recomid            String?
+  sponid             String?
+  return_bank        String?
+  return_account     String?
+  return_name        String?
 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  // relationship
+  notes     Note[]
+  role      String
+
+  @@map("users") // users id "table's name" in Postgres SQL
 }
-//One user can "write" Many notes
+
+// One user can "write" Many notes
 model Note {
   id          Int      @id @default(autoincrement())
   title       String
@@ -34,8 +51,59 @@ model Note {
   // other fields ...
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-  //relationship
-  userId      Int //like "foreign key"
-  user User @relation(fields: [userId], references: [id])
+  // relationship
+  userId      Int // like "foreign key"
+  user        User     @relation(fields: [userId], references: [id])
+
   @@map("notes")
 }
+
+model Saleslevel {
+  id                 Int      @id @default(autoincrement())
+  level              Int 
+  position_name      String
+  purchase_amount    Int
+  amount_limit       Int
+  purchase_pv        Int
+  discount_rate      Float
+  guanli_fee         Int
+  minimum_purchase   Int
+  upgrade            Int
+  payment_limit      Float
+  memo               String
+  @@map("saleslevel")
+}
+
+model Center {
+  id               Int      @id @default(autoincrement())
+  linkedId         String 
+  center_name      String
+  center_owner     String
+  @@map("center_register")
+}
+
+model setup_fee {
+  id               Int      @id @default(autoincrement())
+  select_fee       Float
+  tax              Int
+  withdrawal_fee   Int
+  transfer_fee     Int
+  other_savefee    Int
+   @@map("setup_fee")
+  }
+
+model saleregister {
+  id               Int      @id @default(autoincrement())
+  sale_date        Int
+  sale_type        Float
+  meno             String
+  select_amount    Float
+  sale_amount      Int
+  sale_pv          Int
+  appstatus        Float
+  daiyl_pay        Float
+  sale_id          Float
+  select_ex_date   Float
+  @@map("sale_register")
+}
+  

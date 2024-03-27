@@ -2,24 +2,20 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 
 @Injectable()
-export class UserService {
+export class SetupfeeService {
   constructor(private prismaService: PrismaService) {}
 
   async list() {
-    const users = await this.prismaService.user.findMany({
+    const Setupfee = await this.prismaService.Setupfee.findMany({
       select: {
-        email: true,
-        name: true,
-        option_center: true,
-        createdAt: true,
-        mobilephone_number: true,
-        phone_number: true,
-        address: true,
-        address1: true,
-        addressdoro: true,
-      },
+        Id: true,
+        tax: true,
+        withdrawal_fee: true,
+        transfer_fee: true,
+        other_savefee: true,
+       },
     });
-    return users;
+    return Setupfee;
   }
   async me(userId: number) {
     const note = await this.prismaService.user.findUnique({

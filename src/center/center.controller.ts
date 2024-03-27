@@ -1,12 +1,10 @@
 import { Controller, Get, UseGuards } from '@nestjs/common';
 import { MyJwtGuard } from '../auth/guard';
-import { GetUser } from '../auth/decorator';
-import { User } from '@prisma/client';
-import { UserService } from './user.service';
+import { centerService } from './center.service';
 
-@Controller('user')
-export class UserController {
-  constructor(private userService: UserService) {}
+@Controller('center')
+export class centerController {
+  constructor(private userService: centerService) {}
 
   @UseGuards(MyJwtGuard)
   @Get('list')
@@ -18,9 +16,10 @@ export class UserController {
 
   // @UseGuards(AuthGuard('jwt'))
   @UseGuards(MyJwtGuard)
-  @Get('me')
-  me(@GetUser() user: User) {
+  @Get('update')
+  async update_center() {
     // console.log(request.user);
-    return this.userService.me(user.id);
+    const center = await this.centerService.update();
+    return center;
   }
 }

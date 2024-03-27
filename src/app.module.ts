@@ -6,11 +6,13 @@ import { ConfigModule } from '@nestjs/config';
 import { NoteController } from './note/note.controller';
 import { NoteService } from './note/note.service';
 import { NoteModule } from './note/note.module';
+import { SaleslevelModule } from './saleslevel/Saleslevel.module';
 
 @Module({
   imports: [
     AuthModule,
     UserModule,
+    SaleslevelModule,
     ConfigModule.forRoot({
       isGlobal: true,
     }),
