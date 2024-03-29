@@ -101,7 +101,7 @@ model saleregister {
   sale_amount      Int
   sale_pv          Int
   appstatus        Float
-  daiyl_pay        Float
+  daily_pay        Float
   sale_id          Float
   select_ex_date   Float
   @@map("sale_register")

@@ -11,46 +11,46 @@ export class saleslevelDto {
 }
 
 export class saleslevelRegisterDto {
-    @IsNotEmpty()
-    level: String;
+  @IsNotEmpty()
+  level: string;
 
-    @IsString()
-    @IsNotEmpty()
-    position_name: String;
+  @IsString()
+  @IsNotEmpty()
+  position_name: string;
 
-    @IsString()
-    @IsNotEmpty()
-    purchase_amount: String;
+  @IsString()
+  @IsNotEmpty()
+  purchase_amount: string;
 
-    @IsString()
-    @IsNotEmpty()
-    amount_limit: String;
+  @IsString()
+  @IsNotEmpty()
+  amount_limit: string;
 
-    @IsString()
-    @IsNotEmpty()
-    purchase_pv: String;
+  @IsString()
+  @IsNotEmpty()
+  purchase_pv: string;
 
-    @IsString()
-    @IsNotEmpty()
-    discount_rate: String;
+  @IsString()
+  @IsNotEmpty()
+  discount_rate: string;
 
-    @IsString()
-    @IsNotEmpty()
-    guanli_fee: String;
+  @IsString()
+  @IsNotEmpty()
+  guanli_fee: string;
 
-    @IsString()
-    @IsNotEmpty()
-    minimum_purchase: String;
+  @IsString()
+  @IsNotEmpty()
+  minimum_purchase: string;
 
-    @IsString()
-    @IsNotEmpty()
-    upgrade:String;
+  @IsString()
+  @IsNotEmpty()
+  upgrade: string;
 
-    @IsString()
-    @IsNotEmpty()
-    payment_limit: String;
+  @IsString()
+  @IsNotEmpty()
+  payment_limit: string;
 
-    @IsString()
-    @IsNotEmpty()
-    memo: String;
+  @IsString()
+  @IsNotEmpty()
+  memo: string;
 }

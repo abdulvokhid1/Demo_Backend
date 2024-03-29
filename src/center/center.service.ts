@@ -11,7 +11,7 @@ export class CenterService {
         linked_Id: true,
         center_name: true,
         center_owner: true,
-       },
+      },
     });
     return Center;
   }
