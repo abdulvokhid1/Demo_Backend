@@ -23,7 +23,7 @@ export class AuthService {
     const hashedPassword = await argon.hash(authDTO.password);
     // insert data to database
     try {
-      const user = await this.prismaService.user.create({
+      const newUser = await this.prismaService.user.create({
         data: {
           email: authDTO.email,
           hashedPassword: hashedPassword,
@@ -34,28 +34,58 @@ export class AuthService {
           addressdoro: authDTO.addressdoro || '',
           zip1: authDTO.zip1 || '',
           zip2: authDTO.zip2 || '',
-          option_center: authDTO.option_center || '',
+          // centerId: authDTO.centerId,
           zonecode: authDTO.zonecode || '',
           mobilephone_number: authDTO.mobilephone_number || '',
           phone_number: authDTO.phone_number || '',
           recomid: authDTO.recomid || '',
           sponid: authDTO.sponid || '',
+          Level: {
+            connect: {
+              id: Number(authDTO.levelId) || 1,
+            },
+          },
+          center: {
+            connect: {
+              id: Number(authDTO.centerId) || 1,
+            },
+          },
+          // levelId: Number(authDTO.levelId),
+        },
+      });
+      const inserted_id = newUser.id;
+      const memberId = inserted_id.toString().padStart(6, '0');
+      const user = await this.prismaService.user.update({
+        where: {
+          id: inserted_id,
+        },
+        data: {
+          member_id: memberId,
         },
         select: {
-          // only return id, email, createdAt
           id: true,
+          member_id: true,
           email: true,
           name: true,
           mobilephone_number: true,
-          createdAt: true,
+          phone_number: true,
+          sponid: true,
+          recomid: true,
+          center: {
+            select: {
+              id: true,
+              name: true,
+              description: true,
+              createdAt: true,
+              updatedAt: true,
+            },
+          },
         },
       });
       return {
         // access_token: this.signJwtToken(user.id, user.email),
         profile: {
-          name: user.name,
-          email: user.email,
-          mobilephone_number: user.mobilephone_number,
+          ...user,
         },
       };
     } catch (error) {

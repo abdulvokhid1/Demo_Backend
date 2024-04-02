@@ -26,18 +26,21 @@ model User {
   address1           String?
   addressdoro        String?
   zonecode           String?
-  option_center      String?
   recomid            String?
   sponid             String?
   return_bank        String?
   return_account     String?
   return_name        String?
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
   // relationship
   notes     Note[]
   role      String
+  centerId  Int          @default(0)
+  center    Center       @relation(fields: [centerId], references: [id])
+  levelId   Int          @default(0)
+  Level     CompanyLevel @relation(fields: [levelId], references: [id])
 
   @@map("users") // users id "table's name" in Postgres SQL
 }
@@ -56,4 +59,27 @@ model Note {
   user        User     @relation(fields: [userId], references: [id])
 
   @@map("notes")
+}
+
+model Center {
+  id          Int      @id @default(autoincrement())
+  name        String
+  description String?
+  url         String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  User        User[]
+
+  @@map("centers")
+}
+
+model CompanyLevel {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @default(now()) @updatedAt
+  User        User[]
+
+  @@map("company_levels")
 }

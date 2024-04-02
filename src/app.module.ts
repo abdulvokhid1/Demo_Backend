@@ -6,6 +6,9 @@ import { ConfigModule } from '@nestjs/config';
 import { NoteController } from './note/note.controller';
 import { NoteService } from './note/note.service';
 import { NoteModule } from './note/note.module';
+import { CenterModule } from './center/center.module';
+import { LevelModule } from './level/level.module';
+import { LevelController } from './level/level.controller';
 
 @Module({
   imports: [
@@ -16,8 +19,10 @@ import { NoteModule } from './note/note.module';
     }),
     NoteModule,
     PrismaModule,
+    CenterModule,
+    LevelModule,
   ],
-  controllers: [NoteController],
-  providers: [NoteService],
+  // controllers: [NoteController, LevelController],
+  // providers: [NoteService],
 })
 export class AppModule {}
