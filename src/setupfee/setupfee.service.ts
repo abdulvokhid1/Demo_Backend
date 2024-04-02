@@ -6,23 +6,16 @@ export class SetupfeeService {
   constructor(private prismaService: PrismaService) {}
 
   async list() {
-    const Setupfee = await this.prismaService.Setupfee.findMany({
+    const Setupfee = await this.prismaService.setup_fee.findMany({
       select: {
-        Id: true,
+        id: true,
         tax: true,
         withdrawal_fee: true,
         transfer_fee: true,
         other_savefee: true,
-       },
+      },
     });
     return Setupfee;
   }
-  async me(userId: number) {
-    const note = await this.prismaService.user.findUnique({
-      where: {
-        id: userId,
-      },
-    });
-    return note;
-  }
+  async update(){}
 }

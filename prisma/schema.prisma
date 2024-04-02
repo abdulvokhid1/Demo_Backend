@@ -10,6 +10,11 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum YESNO {
+  YES
+  NO
+}
+
 // modify Database Scheme
 model User {
   id             Int     @id @default(autoincrement())
@@ -129,7 +134,7 @@ model saleregister {
   sale_amount    Int
   sale_pv        Int
   appstatus      Float
-  daily_pay      Float
+  daily_pay      YESNO
   sale_id        Float
   select_ex_date Float
 
