@@ -12,4 +12,13 @@ export class CenterController {
     const list = await this.centerService.list();
     return list;
   }
+
+  // @UseGuards(AuthGuard('jwt'))
+  @UseGuards(MyJwtGuard)
+  @Get('update')
+  async update_center() {
+    // console.log(request.user);
+    const center = await this.centerService.update();
+    return center;
+  }
 }

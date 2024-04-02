@@ -83,3 +83,55 @@ model CompanyLevel {
 
   @@map("company_levels")
 }
+
+model Saleslevel {
+  id               Int    @id @default(autoincrement())
+  level            Int
+  position_name    String
+  purchase_amount  Int
+  amount_limit     Int
+  purchase_pv      Int
+  discount_rate    Float
+  guanli_fee       Int
+  minimum_purchase Int
+  upgrade          Int
+  payment_limit    Float
+  memo             String
+
+  @@map("saleslevel")
+}
+
+// model Center {
+//   id               Int      @id @default(autoincrement())
+//   linkedId         String
+//   center_name      String
+//   center_owner     String
+//   @@map("center_register")
+// }
+
+model setup_fee {
+  id             Int   @id @default(autoincrement())
+  select_fee     Float
+  tax            Int
+  withdrawal_fee Int
+  transfer_fee   Int
+  other_savefee  Int
+
+  @@map("setup_fee")
+}
+
+model saleregister {
+  id             Int    @id @default(autoincrement())
+  sale_date      Int
+  sale_type      Float
+  meno           String
+  select_amount  Float
+  sale_amount    Int
+  sale_pv        Int
+  appstatus      Float
+  daily_pay      Float
+  sale_id        Float
+  select_ex_date Float
+
+  @@map("sale_register")
+}

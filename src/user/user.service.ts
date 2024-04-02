@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import {Paginated, QueryParameters} from "@mirrom/nestjs-prisma-pagination";
 import { PrismaService } from '../prisma/prisma.service';
-import { ParameterDto } from "./dto";
+import { ParameterDto } from './dto';
 
 @Injectable()
 export class UserService {
   constructor(private prismaService: PrismaService) {}
+
 
   async list(parameters: ParameterDto) {
     const [total, users] = await this.prismaService.$transaction([

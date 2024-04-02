@@ -3,17 +3,16 @@ import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { ConfigModule } from '@nestjs/config';
-import { NoteController } from './note/note.controller';
-import { NoteService } from './note/note.service';
 import { NoteModule } from './note/note.module';
 import { CenterModule } from './center/center.module';
 import { LevelModule } from './level/level.module';
-import { LevelController } from './level/level.controller';
+import { SaleslevelModule } from './saleslevel/Saleslevel.module';
 
 @Module({
   imports: [
     AuthModule,
     UserModule,
+    SaleslevelModule,
     ConfigModule.forRoot({
       isGlobal: true,
     }),

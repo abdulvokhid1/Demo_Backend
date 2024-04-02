@@ -9,4 +9,5 @@ export class CenterService {
     const centers = await this.prismaService.center.findMany();
     return centers;
   }
+  async update() {}
 }
