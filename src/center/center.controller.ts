@@ -8,7 +8,7 @@ export class CenterController {
 
   @UseGuards(MyJwtGuard)
   @Get('list')
-  async list() {
+  async list(param) {
     const list = await this.centerService.list();
     return list;
   }
