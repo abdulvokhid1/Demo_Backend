@@ -4,21 +4,22 @@ import { SaleslevelService } from './saleslevel.service';
 
 @Controller('sales_level')
 export class SaleslevelController {
-  constructor(private salesService: SaleslevelService) {}
+  constructor(private saleslevelService: SaleslevelService) {}
 
   @UseGuards(MyJwtGuard)
   @Get('list')
   async list() {
     // console.log(request.user);
-    const levels = await this.salesService.list();
+    const levels = await this.saleslevelService.list();
     return levels;
   }
-
+  
   @UseGuards(MyJwtGuard)
   @Get('update')
   async update_level() {
     // console.log(request.user);
-    const saleslevel = await this.salesService.update();
-    return saleslevel;
+    const users = await this.saleslevelService.update();
+    return users;
   }
+
 }
