@@ -61,7 +61,7 @@ export class AuthService {
       };
     } catch (error) {
       if (error.code == 'P2002') {
-        console.log(error)
+        console.log(error);
         throw new ForbiddenException('Error in credentials');
       }
     }

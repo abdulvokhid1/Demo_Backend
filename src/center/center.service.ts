@@ -10,8 +10,8 @@ export class CenterService {
     const [total, centers] = await this.prismaService.$transaction([
       this.prismaService.center.count(),
       this.prismaService.center.findMany({
-        take: parameters.limit,
-        skip: parameters.limit * (parameters.page - 1),
+        take: Number(parameters.limit),
+        skip: Number(parameters.limit) * (Number(parameters.page) - 1),
       }),
     ]);
     return {

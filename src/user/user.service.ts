@@ -1,24 +1,49 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { ParameterDto } from './dto';
+import { noop } from 'rxjs';
 
 @Injectable()
 export class UserService {
   constructor(private prismaService: PrismaService) {}
 
   async list(parameters: ParameterDto) {
-    const [total, users] = await this.prismaService.$transaction([
-      this.prismaService.user.count(),
-      this.prismaService.user.findMany({
-        take: parameters.limit,
-        skip: parameters.limit * (parameters.page - 1),
-      }),
-    ]);
+    let query = {};
+    parameters.id ? (query = { ...query, id: parameters.id }) : noop;
+    parameters.name ? (query = { ...query, name: parameters.name }) : noop;
+    parameters.level ? (query = { ...query, level: parameters.level }) : noop;
+
+    if (parameters.limit) {
+      const [total, users] = await this.prismaService.$transaction([
+        this.prismaService.user.count({
+          where: query,
+        }),
+        this.prismaService.user.findMany({
+          where: query,
+          take: Number(parameters.limit),
+          skip: Number(parameters.limit) * (Number(parameters.page) - 1),
+        }),
+      ]);
+      users.map((item) => {
+        delete item['hashedPassword'];
+      });
+      return {
+        total: total,
+        users: users,
+      };
+    }
+    const total = await this.prismaService.user.count({
+      where: query,
+    });
+    const users = await this.prismaService.user.findMany({
+      where: query,
+    });
     return {
       total: total,
       users: users,
     };
   }
+
   async me(userId: number) {
     const note = await this.prismaService.user.findUnique({
       where: {

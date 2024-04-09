@@ -10,6 +10,7 @@ export class CenterController {
   @UseGuards(MyJwtGuard)
   @Post('list')
   async list(@Body() parameterDto: ParameterDto) {
+    // console.log(request.user);
     const list = await this.centerService.list(parameterDto);
     return list;
   }

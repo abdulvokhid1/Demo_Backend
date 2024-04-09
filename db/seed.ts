@@ -735,6 +735,9 @@ const centerSeed = async () => {
       data: item,
     });
   });
+  // await prisma.center.createMany({
+  //   data: centerList,
+  // });
 };
 const levelSeed = async () => {
   levelList.map(async (item) => {
@@ -742,6 +745,9 @@ const levelSeed = async () => {
       data: item,
     });
   });
+  // await prisma.companyLevel.createMany({
+  //   data: levelList,
+  // });
 };
 
 const userSeed = async () => {
@@ -757,8 +763,8 @@ const userSeed = async () => {
 
 const main = async () => {
   try {
-    await centerSeed();
     await levelSeed();
+    await centerSeed();
   } catch (e) {
     console.error(e);
     await prisma.$disconnect();

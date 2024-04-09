@@ -1,8 +1,10 @@
 // import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
 
 export class ParameterDto {
+  id?: number;
+  name?: string;
+  level?: number;
   page?: number;
-
   limit?: number;
 }
 
