@@ -3,9 +3,9 @@ import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { ConfigModule } from '@nestjs/config';
+import { NoteController } from './note/note.controller';
+import { NoteService } from './note/note.service';
 import { NoteModule } from './note/note.module';
-import { CenterModule } from './center/center.module';
-import { LevelModule } from './level/level.module';
 import { SaleslevelModule } from './saleslevel/Saleslevel.module';
 
 @Module({
@@ -18,10 +18,9 @@ import { SaleslevelModule } from './saleslevel/Saleslevel.module';
     }),
     NoteModule,
     PrismaModule,
-    CenterModule,
-    LevelModule,
   ],
-  // controllers: [NoteController, LevelController],
-  // providers: [NoteService],
+  controllers: [NoteController],
+  providers: [NoteService],
 })
 export class AppModule {}
+

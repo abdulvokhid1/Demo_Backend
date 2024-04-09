@@ -3,11 +3,23 @@ import { PrismaService } from '../prisma/prisma.service';
 
 @Injectable()
 export class CenterService {
-  constructor(private readonly prismaService: PrismaService) {}
+  constructor(private prismaService: PrismaService) {}
 
   async list() {
-    const centers = await this.prismaService.center.findMany();
-    return centers;
+    const Center = await this.prismaService.center.findMany({
+      select: {
+        name: true,
+        // center_owner: true,
+      },
+    });
+    return Center;
   }
-  async update() {}
+  async update() {
+    // const note = await this.prismaService.user.findUnique({
+    //   where: {
+    //     id: userId,
+    //   },
+    // });
+    // return note;
+  }
 }

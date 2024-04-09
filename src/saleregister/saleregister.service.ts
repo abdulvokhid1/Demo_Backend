@@ -1,8 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-
 @Injectable()
-export class SaleRegisterService {
+export class saleregisterService {
   constructor(private prismaService: PrismaService) {}
 
   async list() {
@@ -23,5 +22,15 @@ export class SaleRegisterService {
     });
     return saleregister;
   }
-  async update() {}
+  async update(){
+    
+  }
+  // async update() {
+  //   const note = await this.prismaService.user.findUnique({
+  //     where: {
+  //       id: userId,
+  //     },
+  //   });
+  //   return note;
+  // }
 }

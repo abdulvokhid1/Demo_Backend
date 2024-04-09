@@ -48,15 +48,16 @@ export class AuthRegisterDto {
   zonecode: string;
 
   // @IsString()
-  centerId?: number;
+  centerId: string;
+    
+  // @IsString()
+  levelId: string;
 
   // @IsString()
   recomid: string;
 
   // @IsString()
   sponid: string;
-
-  levelId?: number;
 
   // @IsString()
   return_bank: string;
