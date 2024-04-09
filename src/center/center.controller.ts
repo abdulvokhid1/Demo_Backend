@@ -1,4 +1,4 @@
-import { Controller, Get, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, UseGuards } from '@nestjs/common';
 import { CenterService } from './center.service';
 import { MyJwtGuard } from '../auth/guard';
 
@@ -7,7 +7,7 @@ export class CenterController {
   constructor(private readonly centerService: CenterService) {}
 
   @UseGuards(MyJwtGuard)
-  @Get('list')
+  @Post('list')
   async list() {
     const list = await this.centerService.list();
     return list;
