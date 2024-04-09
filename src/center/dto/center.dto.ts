@@ -1,5 +1,11 @@
 import { IsString } from 'class-validator';
 
+export class ParameterDto {
+  page?: number;
+
+  limit?: number;
+}
+
 export class centerDto {
   @IsString()
   id: string;

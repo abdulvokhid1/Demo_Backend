@@ -1,6 +1,7 @@
-import { Controller, Get, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
 import { CenterService } from './center.service';
 import { MyJwtGuard } from '../auth/guard';
+import { ParameterDto } from './dto';
 
 @Controller('center')
 export class CenterController {
@@ -8,8 +9,8 @@ export class CenterController {
 
   @UseGuards(MyJwtGuard)
   @Post('list')
-  async list() {
-    const list = await this.centerService.list();
+  async list(@Body() parameterDto: ParameterDto) {
+    const list = await this.centerService.list(parameterDto);
     return list;
   }
 
