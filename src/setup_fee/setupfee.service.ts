@@ -7,7 +7,7 @@ export class SetupfeeService {
   }
   constructor(private prismaService: PrismaService) {}
   async list() {
-    const Setupfee = await this.prismaService.setup_fee.findMany({
+    const Setupfee = await this.prismaService.setupfee.findMany({
       select: {
         id: true,
         tax: true,

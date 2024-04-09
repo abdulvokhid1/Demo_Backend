@@ -8,9 +8,8 @@ export class CenterService {
   async list() {
     const Center = await this.prismaService.center.findMany({
       select: {
-        linkedId: true,
-        center_name: true,
-        center_owner: true,
+        name: true,
+        // center_owner: true,
       },
     });
     return Center;

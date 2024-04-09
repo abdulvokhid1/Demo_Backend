@@ -10,7 +10,7 @@ export class UserService {
       select: {
         email: true,
         name: true,
-        option_center: true,
+        centerId: true,
         createdAt: true,
         mobilephone_number: true,
         phone_number: true,

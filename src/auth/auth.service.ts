@@ -34,7 +34,7 @@ export class AuthService {
           addressdoro: authDTO.addressdoro || '',
           zip1: authDTO.zip1 || '',
           zip2: authDTO.zip2 || '',
-          option_center: authDTO.option_center || '',
+          centerId: Number(authDTO.option_center) | 0,
           zonecode: authDTO.zonecode || '',
           mobilephone_number: authDTO.mobilephone_number || '',
           phone_number: authDTO.phone_number || '',
@@ -60,6 +60,7 @@ export class AuthService {
       };
     } catch (error) {
       if (error.code == 'P2002') {
+        console.log(error)
         throw new ForbiddenException('Error in credentials');
       }
     }
