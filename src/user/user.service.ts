@@ -1,25 +1,23 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
+import { ParameterDto } from './dto';
 
 @Injectable()
 export class UserService {
   constructor(private prismaService: PrismaService) {}
 
-  async list() {
-    const users = await this.prismaService.user.findMany({
-      select: {
-        email: true,
-        name: true,
-        centerId: true,
-        createdAt: true,
-        mobilephone_number: true,
-        phone_number: true,
-        address: true,
-        address1: true,
-        addressdoro: true,
-      },
-    });
-    return users;
+  async list(parameters: ParameterDto) {
+    const [total, users] = await this.prismaService.$transaction([
+      this.prismaService.user.count(),
+      this.prismaService.user.findMany({
+        take: parameters.limit,
+        skip: parameters.limit * (parameters.page - 1),
+      }),
+    ]);
+    return {
+      total: total,
+      users: users,
+    };
   }
   async me(userId: number) {
     const note = await this.prismaService.user.findUnique({
