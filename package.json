@@ -4,7 +4,10 @@
   "description": "",
   "author": "",
   "private": true,
-  "license": "UNLICENSED",
+  "license": "MIT",
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts"
+  },
   "scripts": {
     "prisma:dev:deploy": "prisma migrate deploy",
     "prisma:test:deploy": "dotenv -e .env.test -- prisma migrate deploy",
