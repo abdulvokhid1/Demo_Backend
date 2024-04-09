@@ -1,16 +1,14 @@
 import { Controller, Get, UseGuards } from '@nestjs/common';
 import { MyJwtGuard } from '../auth/guard';
-import { SaleRegisterService } from './saleregister.service';
-
+import { saleregisterService } from './saleregister.service';
 @Controller('saleregister')
 export class saleregisterController {
-  constructor(private saleRegisterService: SaleRegisterService) {}
-
+  constructor(private saleregisterService: saleregisterService) {}
   @UseGuards(MyJwtGuard)
   @Get('list')
   async list() {
     // console.log(request.user);
-    const saleregister = await this.saleRegisterService.list();
+    const saleregister = await this.saleregisterService.list();
     return saleregister;
   }
 
@@ -19,7 +17,7 @@ export class saleregisterController {
   @Get('update')
   async update_center() {
     // console.log(request.user);
-    const saleregister = await this.saleRegisterService.update();
+    const saleregister = await this.saleregisterService.update();
     return saleregister;
   }
 }

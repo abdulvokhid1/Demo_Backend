@@ -16,3 +16,9 @@ export class setupfeeDto {
   @IsNumber()
   other_savefee: number;
 }
+
+export class ParameterDto {
+  page?: number;
+
+  limit?: number;
+}
