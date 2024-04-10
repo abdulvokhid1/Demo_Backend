@@ -2,6 +2,7 @@
 
 export class ParameterDto {
   id?: number;
+  memberId?: string;
   name?: string;
   level?: number;
   page?: number;

@@ -10,7 +10,12 @@ export class UserService {
   async list(parameters: ParameterDto) {
     let query = {};
     parameters.id ? (query = { ...query, id: parameters.id }) : noop;
-    parameters.name ? (query = { ...query, name: parameters.name }) : noop;
+    parameters.memberId
+      ? (query = { ...query, member_id: { contains: parameters.memberId } })
+      : noop;
+    parameters.name
+      ? (query = { ...query, name: { contains: parameters.name } })
+      : noop;
     parameters.level ? (query = { ...query, level: parameters.level }) : noop;
 
     if (parameters.limit) {
@@ -20,6 +25,10 @@ export class UserService {
         }),
         this.prismaService.user.findMany({
           where: query,
+          include: {
+            center: true,
+            Level: true,
+          },
           take: Number(parameters.limit),
           skip: Number(parameters.limit) * (Number(parameters.page) - 1),
         }),
@@ -37,6 +46,10 @@ export class UserService {
     });
     const users = await this.prismaService.user.findMany({
       where: query,
+      include: {
+        center: true,
+        Level: true,
+      },
     });
     return {
       total: total,
