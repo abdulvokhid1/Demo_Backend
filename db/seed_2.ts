@@ -1,35 +1,9 @@
 import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
+export const sleep = async (waitTime: number) =>
+  new Promise((resolve) => setTimeout(resolve, waitTime));
 
 const userList = [
-  {
-    email: 'admin@gmail.com',
-    hashedPassword:
-      '$argon2id$v=19$m=65536,t=3,p=4$BJaOMltqvVlvXJCHp4defg$nUooavLqIZ4Lxu1QzzeuUViSpZs4hwzidG+DocS0l/I',
-    name: 'Admin',
-    role: 'admin',
-    address: '',
-    address1: '',
-    addressdoro: '',
-    zip1: '',
-    zip2: '',
-    // centerId: authDTO.centerId,
-    zonecode: '',
-    mobilephone_number: '',
-    phone_number: '',
-    recomid: '',
-    sponid: '',
-    center: {
-      connect: {
-        id: 1,
-      },
-    },
-    Level: {
-      connect: {
-        id: 1,
-      },
-    },
-  },
   {
     email: 'user1@gmail.com',
     hashedPassword:
@@ -45,8 +19,8 @@ const userList = [
     zonecode: '',
     mobilephone_number: '',
     phone_number: '',
-    recomid: '',
-    sponid: '',
+    // recomid: '',
+    // sponid: '',
     center: {
       connect: {
         id: 1,
@@ -73,8 +47,8 @@ const userList = [
     zonecode: '',
     mobilephone_number: '',
     phone_number: '',
-    recomid: '',
-    sponid: '',
+    // recomid: '',
+    // sponid: '',
     center: {
       connect: {
         id: 1,
@@ -101,8 +75,8 @@ const userList = [
     zonecode: '',
     mobilephone_number: '',
     phone_number: '',
-    recomid: '',
-    sponid: '',
+    // recomid: '',
+    // sponid: '',
     center: {
       connect: {
         id: 1,
@@ -129,8 +103,8 @@ const userList = [
     zonecode: '',
     mobilephone_number: '',
     phone_number: '',
-    recomid: '',
-    sponid: '',
+    // recomid: '',
+    // sponid: '',
     center: {
       connect: {
         id: 1,
@@ -157,8 +131,8 @@ const userList = [
     zonecode: '',
     mobilephone_number: '',
     phone_number: '',
-    recomid: '',
-    sponid: '',
+    // recomid: '',
+    // sponid: '',
     center: {
       connect: {
         id: 1,
@@ -185,8 +159,8 @@ const userList = [
     zonecode: '',
     mobilephone_number: '',
     phone_number: '',
-    recomid: '',
-    sponid: '',
+    // recomid: '',
+    // sponid: '',
     center: {
       connect: {
         id: 1,
@@ -213,8 +187,8 @@ const userList = [
     zonecode: '',
     mobilephone_number: '',
     phone_number: '',
-    recomid: '',
-    sponid: '',
+    // recomid: '',
+    // sponid: '',
     center: {
       connect: {
         id: 1,
@@ -241,8 +215,8 @@ const userList = [
     zonecode: '',
     mobilephone_number: '',
     phone_number: '',
-    recomid: '',
-    sponid: '',
+    // recomid: '',
+    // sponid: '',
     center: {
       connect: {
         id: 1,
@@ -269,8 +243,8 @@ const userList = [
     zonecode: '',
     mobilephone_number: '',
     phone_number: '',
-    recomid: '',
-    sponid: '',
+    // recomid: '',
+    // sponid: '',
     center: {
       connect: {
         id: 1,
@@ -297,8 +271,8 @@ const userList = [
     zonecode: '',
     mobilephone_number: '',
     phone_number: '',
-    recomid: '',
-    sponid: '',
+    // recomid: '',
+    // sponid: '',
     center: {
       connect: {
         id: 1,
@@ -325,8 +299,8 @@ const userList = [
     zonecode: '',
     mobilephone_number: '',
     phone_number: '',
-    recomid: '',
-    sponid: '',
+    // recomid: '',
+    // sponid: '',
     center: {
       connect: {
         id: 1,
@@ -353,8 +327,8 @@ const userList = [
     zonecode: '',
     mobilephone_number: '',
     phone_number: '',
-    recomid: '',
-    sponid: '',
+    // recomid: '',
+    // sponid: '',
     center: {
       connect: {
         id: 1,
@@ -381,8 +355,8 @@ const userList = [
     zonecode: '',
     mobilephone_number: '',
     phone_number: '',
-    recomid: '',
-    sponid: '',
+    // recomid: '',
+    // sponid: '',
     center: {
       connect: {
         id: 1,
@@ -409,8 +383,8 @@ const userList = [
     zonecode: '',
     mobilephone_number: '',
     phone_number: '',
-    recomid: '',
-    sponid: '',
+    // recomid: '',
+    // sponid: '',
     center: {
       connect: {
         id: 1,
@@ -437,8 +411,8 @@ const userList = [
     zonecode: '',
     mobilephone_number: '',
     phone_number: '',
-    recomid: '',
-    sponid: '',
+    // recomid: '',
+    // sponid: '',
     center: {
       connect: {
         id: 1,
@@ -465,8 +439,8 @@ const userList = [
     zonecode: '',
     mobilephone_number: '',
     phone_number: '',
-    recomid: '',
-    sponid: '',
+    // recomid: '',
+    // sponid: '',
     center: {
       connect: {
         id: 1,
@@ -493,8 +467,8 @@ const userList = [
     zonecode: '',
     mobilephone_number: '',
     phone_number: '',
-    recomid: '',
-    sponid: '',
+    // recomid: '',
+    // sponid: '',
     center: {
       connect: {
         id: 1,
@@ -521,8 +495,8 @@ const userList = [
     zonecode: '',
     mobilephone_number: '',
     phone_number: '',
-    recomid: '',
-    sponid: '',
+    // recomid: '',
+    // sponid: '',
     center: {
       connect: {
         id: 1,
@@ -549,8 +523,8 @@ const userList = [
     zonecode: '',
     mobilephone_number: '',
     phone_number: '',
-    recomid: '',
-    sponid: '',
+    // recomid: '',
+    // sponid: '',
     center: {
       connect: {
         id: 1,
@@ -577,8 +551,8 @@ const userList = [
     zonecode: '',
     mobilephone_number: '',
     phone_number: '',
-    recomid: '',
-    sponid: '',
+    // recomid: '',
+    // sponid: '',
     center: {
       connect: {
         id: 1,
@@ -605,8 +579,8 @@ const userList = [
     zonecode: '',
     mobilephone_number: '',
     phone_number: '',
-    recomid: '',
-    sponid: '',
+    // recomid: '',
+    // sponid: '',
     center: {
       connect: {
         id: 1,
@@ -633,8 +607,8 @@ const userList = [
     zonecode: '',
     mobilephone_number: '',
     phone_number: '',
-    recomid: '',
-    sponid: '',
+    // recomid: '',
+    // sponid: '',
     center: {
       connect: {
         id: 1,
@@ -661,8 +635,8 @@ const userList = [
     zonecode: '',
     mobilephone_number: '',
     phone_number: '',
-    recomid: '',
-    sponid: '',
+    // recomid: '',
+    // sponid: '',
     center: {
       connect: {
         id: 1,
@@ -675,81 +649,6 @@ const userList = [
     },
   },
 ];
-
-const centerList = [
-  {
-    name: '본사',
-    description: '본사',
-    url: 'http://localhost:3001',
-  },
-  {
-    name: '강남센터',
-    description: '강남센터',
-    url: 'http://localhost:3001',
-  },
-  {
-    name: '봉천센터',
-    description: '봉천센터',
-    url: 'http://localhost:3001',
-  },
-];
-
-const levelList = [
-  {
-    title: '일반회원',
-    description: '일반회원',
-  },
-  {
-    title: '정회원',
-    description: '정회원',
-  },
-  {
-    title: '팀장',
-    description: '팀장',
-  },
-  {
-    title: '1스타',
-    description: '1스타',
-  },
-  {
-    title: '2스타',
-    description: '2스타',
-  },
-  {
-    title: '3스타',
-    description: '3스타',
-  },
-  {
-    title: '4스타',
-    description: '4스타',
-  },
-  {
-    title: '5스타',
-    description: '5스타',
-  },
-];
-
-const centerSeed = async () => {
-  centerList.map(async (item) => {
-    await prisma.center.create({
-      data: item,
-    });
-  });
-  // await prisma.center.createMany({
-  //   data: centerList,
-  // });
-};
-const levelSeed = async () => {
-  levelList.map(async (item) => {
-    await prisma.companyLevel.create({
-      data: item,
-    });
-  });
-  // await prisma.companyLevel.createMany({
-  //   data: levelList,
-  // });
-};
-
 const userSeed = async () => {
   userList.map(async (item) => {
     await prisma.user.create({
@@ -763,8 +662,39 @@ const userSeed = async () => {
 
 const main = async () => {
   try {
-    await levelSeed();
-    await centerSeed();
+    await prisma.user.create({
+      data: {
+        email: 'admin@gmail.com',
+        hashedPassword:
+          '$argon2id$v=19$m=65536,t=3,p=4$BJaOMltqvVlvXJCHp4defg$nUooavLqIZ4Lxu1QzzeuUViSpZs4hwzidG+DocS0l/I',
+        name: 'Admin',
+        role: 'admin',
+        address: '',
+        address1: '',
+        addressdoro: '',
+        zip1: '',
+        zip2: '',
+        // centerId: authDTO.centerId,
+        zonecode: '',
+        mobilephone_number: '',
+        phone_number: '',
+        // recomid: ,
+        // sponid: '',
+        center: {
+          connect: {
+            id: 1,
+          },
+        },
+        Level: {
+          connect: {
+            id: 1,
+          },
+        },
+      },
+    });
+    await sleep(500);
+    await userSeed();
+    console.log('user seed successfully.');
   } catch (e) {
     console.error(e);
     await prisma.$disconnect();
@@ -774,7 +704,6 @@ const main = async () => {
 
 main().then(async () => {
   try {
-    await userSeed();
     await prisma.$disconnect();
   } catch (e) {
     await prisma.$disconnect();

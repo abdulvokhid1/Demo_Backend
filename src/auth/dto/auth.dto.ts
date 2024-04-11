@@ -49,15 +49,15 @@ export class AuthRegisterDto {
 
   // @IsString()
   centerId: string;
-    
+
   // @IsString()
   levelId: string;
 
   // @IsString()
-  recomid: string;
+  recomid: number;
 
   // @IsString()
-  sponid: string;
+  // sponid: number;
 
   // @IsString()
   return_bank: string;

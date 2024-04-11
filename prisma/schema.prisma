@@ -31,8 +31,10 @@ model User {
   address1           String?
   addressdoro        String?
   zonecode           String?
-  recomid            String?
-  sponid             String?
+  recomid            Int?
+  recom              User?   @relation("Recommendation", fields: [recomid], references: [id])
+  subs               User[]  @relation("Recommendation")
+  sponid             Int?
   return_bank        String?
   return_account     String?
   return_name        String?
