@@ -6,7 +6,7 @@
   "private": true,
   "license": "MIT",
   "scripts": {
-    "prisma:dev": "prisma migrate dev && ts-node db/seed_1.ts && ts-node db/seed_2.ts",
+    "prisma:dev": "prisma migrate dev && ts-node db/seed_1.ts && ts-node db/seed_2.ts && ts-node db/seed_3.ts",
     "prisma:dev:deploy": "prisma migrate deploy",
     "prisma:test:deploy": "dotenv -e .env.test -- prisma migrate deploy",
     "build": "nest build",

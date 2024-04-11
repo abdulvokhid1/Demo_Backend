@@ -34,13 +34,13 @@ export class AuthService {
           addressdoro: authDTO.addressdoro || '',
           zip1: authDTO.zip1 || '',
           zip2: authDTO.zip2 || '',
-          centerId: Number(authDTO.centerId) | 0,
-          levelId: Number(authDTO.levelId) | 0,
+          centerId: Number(authDTO.centerId) | 1,
+          levelId: Number(authDTO.levelId) | 1,
           zonecode: authDTO.zonecode || '',
           mobilephone_number: authDTO.mobilephone_number || '',
           phone_number: authDTO.phone_number || '',
-          recomid: authDTO.recomid || '',
-          sponid: authDTO.sponid || '',
+          recomid: Number(authDTO.recomid) || 1,
+          // sponid: authDTO.sponid || '',
         },
         select: {
           // only return id, email, createdAt
