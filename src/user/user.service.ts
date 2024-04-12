@@ -28,6 +28,8 @@ export class UserService {
           include: {
             center: true,
             Level: true,
+            recom: true,
+            subs: true,
           },
           take: Number(parameters.limit),
           skip: Number(parameters.limit) * (Number(parameters.page) - 1),
@@ -49,6 +51,7 @@ export class UserService {
       include: {
         center: true,
         Level: true,
+        subs: true,
       },
     });
     return {

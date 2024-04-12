@@ -1,2 +1,2 @@
-export * from './center.dto';
+export * from './centerDto';
 //.. other file dto

@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
 import { CenterService } from './center.service';
 import { MyJwtGuard } from '../auth/guard';
-import { ParameterDto } from './dto';
+import { CenterDto, ParameterDto } from './dto';
 
 @Controller('center')
 export class CenterController {
@@ -21,6 +21,14 @@ export class CenterController {
   async update_center() {
     // console.log(request.user);
     const center = await this.centerService.update();
+    return center;
+  }
+  // @UseGuards(AuthGuard('jwt'))
+  @UseGuards(MyJwtGuard)
+  @Get('update')
+  async create(@Body() centerParams: CenterDto) {
+    // console.log(request.user);
+    const center = await this.centerService.create(centerParams);
     return center;
   }
 }
