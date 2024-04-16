@@ -1,2 +1,2 @@
 export * from './centerDto';
-//.. other file dto
+//… other file dto

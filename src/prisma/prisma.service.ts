@@ -22,6 +22,8 @@ export class PrismaService extends PrismaClient {
       // 2 commands in ONE transaction (completed only ALL both commands completed
       this.note.deleteMany(),
       this.user.deleteMany(),
+      this.companyLevel.deleteMany(),
+      this.center.deleteMany(),
     ]);
   }
 }

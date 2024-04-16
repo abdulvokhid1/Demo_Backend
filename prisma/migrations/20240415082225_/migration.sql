@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE `deposit` MODIFY `fee` INTEGER NOT NULL DEFAULT 0,
+    MODIFY `isRewarded` INTEGER NOT NULL DEFAULT 0;

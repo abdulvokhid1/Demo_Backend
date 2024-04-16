@@ -52,6 +52,7 @@ export class UserService {
         center: true,
         Level: true,
         subs: true,
+        recom: true,
       },
     });
     return {

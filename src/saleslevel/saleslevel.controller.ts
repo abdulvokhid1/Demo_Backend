@@ -13,7 +13,7 @@ export class SaleslevelController {
     const levels = await this.saleslevelService.list();
     return levels;
   }
-  
+
   @UseGuards(MyJwtGuard)
   @Get('update')
   async update_level() {
@@ -21,5 +21,4 @@ export class SaleslevelController {
     const users = await this.saleslevelService.update();
     return users;
   }
-
 }

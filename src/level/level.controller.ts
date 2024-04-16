@@ -1,6 +1,7 @@
-import { Controller, Get, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
 import { MyJwtGuard } from '../auth/guard';
 import { LevelService } from './level.service';
+import { LevelParamsDto } from './dto/levelDto';
 
 @Controller('level')
 export class LevelController {
@@ -10,6 +11,13 @@ export class LevelController {
   @Get('list')
   async list() {
     const list = await this.levelService.list();
+    return list;
+  }
+
+  @UseGuards(MyJwtGuard)
+  @Post('update')
+  async update(@Body() params: LevelParamsDto) {
+    const list = await this.levelService.update(params);
     return list;
   }
 }

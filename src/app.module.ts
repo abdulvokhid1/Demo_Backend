@@ -9,6 +9,8 @@ import { NoteModule } from './note/note.module';
 import { SaleslevelModule } from './saleslevel/Saleslevel.module';
 import { CenterModule } from './center/center.module';
 import { LevelModule } from './level/level.module';
+import { CategoryModule } from './category/category.module';
+import { DepositModule } from './deposit/deposit.module';
 
 @Module({
   imports: [
@@ -22,6 +24,8 @@ import { LevelModule } from './level/level.module';
     }),
     NoteModule,
     PrismaModule,
+    CategoryModule,
+    DepositModule,
   ],
   controllers: [NoteController],
   providers: [NoteService],

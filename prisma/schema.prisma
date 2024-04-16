@@ -15,6 +15,19 @@ enum YESNO {
   NO
 }
 
+enum PAYMENT_METHOD {
+  CASH
+  TRANSFER
+  CARD
+  PHONE
+}
+
+enum STATUS {
+  WAITING
+  REJECTED
+  CONFIRMED
+}
+
 // modify Database Scheme
 model User {
   id             Int     @id @default(autoincrement())
@@ -43,6 +56,7 @@ model User {
   updatedAt DateTime     @updatedAt
   // relationship
   notes     Note[]
+  deposits  Deposit[]
   role      String
   centerId  Int          @default(0)
   center    Center       @relation(fields: [centerId], references: [id])
@@ -81,12 +95,20 @@ model Center {
 }
 
 model CompanyLevel {
-  id          Int      @id @default(autoincrement())
-  title       String
-  description String?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @default(now()) @updatedAt
-  User        User[]
+  id           Int      @id @default(autoincrement())
+  title        String
+  rank         Int      @unique
+  minBuy       Float    @default(0)
+  minSell      Float    @default(0)
+  minSub       Int      @default(0)
+  discountRate Float    @default(0)
+  rewardRate   Float    @default(0)
+  bgColor      String   @default("#FFFFFF")
+  txtColor     String   @default("#000000")
+  description  String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @default(now()) @updatedAt
+  User         User[]
 
   @@map("company_levels")
 }
@@ -141,4 +163,56 @@ model saleregister {
   select_ex_date Float
 
   @@map("sale_register")
+}
+
+model Product {
+  id         Int               @id @default(autoincrement())
+  name       String
+  categories CategoryProduct[]
+
+  @@map("product")
+}
+
+model Category {
+  id        Int               @id @default(autoincrement())
+  name      String
+  isActive  YESNO
+  img       String
+  parentId  Int?
+  parent    Category?         @relation("SubCategory", fields: [parentId], references: [id])
+  subs      Category[]        @relation("SubCategory")
+  products  CategoryProduct[]
+  createdAt DateTime          @default(now())
+  updatedAt DateTime          @default(now()) @updatedAt
+
+  @@map("category")
+}
+
+model CategoryProduct {
+  product    Product  @relation(fields: [productId], references: [id])
+  productId  Int // relation scalar field (used in the `@relation` attribute above)
+  category   Category @relation(fields: [categoryId], references: [id])
+  categoryId Int // relation scalar field (used in the `@relation` attribute above)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @default(now()) @updatedAt
+
+  @@id([productId, categoryId])
+  @@map("categoryproduct")
+}
+
+model Deposit {
+  id          Int      @id @default(autoincrement())
+  depositDate DateTime @default(now())
+  userId      Int // like "foreign key"
+  user        User     @relation(fields: [userId], references: [id])
+  amount      Float
+  status      Int      @default(0)
+  fee         Int      @default(0)
+  isRewarded  Int      @default(0)
+  method      Int      @default(0)
+  memo        String   @default("")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @default(now()) @updatedAt
+
+  @@map("deposit")
 }

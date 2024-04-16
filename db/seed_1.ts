@@ -682,50 +682,44 @@ const centerList = [
     description: '본사',
     url: 'http://localhost:3001',
   },
-  {
-    name: '강남센터',
-    description: '강남센터',
-    url: 'http://localhost:3001',
-  },
-  {
-    name: '봉천센터',
-    description: '봉천센터',
-    url: 'http://localhost:3001',
-  },
 ];
 
 const levelList = [
   {
-    title: '일반회원',
-    description: '일반회원',
+    title: '준회원',
+    description: '준회원',
+    rank: 1,
+    minBuy: 0,
+    minSell: 0,
+    minSub: 0,
+    discountRate: 0,
+    rewardRate: 0,
+    bgColor: '#FFFFFF',
+    txtColor: '#000000',
   },
   {
     title: '정회원',
     description: '정회원',
+    rank: 2,
+    minBuy: 0,
+    minSell: 0,
+    minSub: 0,
+    discountRate: 0,
+    rewardRate: 0,
+    bgColor: '#FFFFFF',
+    txtColor: '#000000',
   },
   {
-    title: '팀장',
-    description: '팀장',
-  },
-  {
-    title: '1스타',
-    description: '1스타',
-  },
-  {
-    title: '2스타',
-    description: '2스타',
-  },
-  {
-    title: '3스타',
-    description: '3스타',
-  },
-  {
-    title: '4스타',
-    description: '4스타',
-  },
-  {
-    title: '5스타',
-    description: '5스타',
+    title: '대리점',
+    description: '대리점',
+    rank: 3,
+    minBuy: 0,
+    minSell: 0,
+    minSub: 0,
+    discountRate: 0,
+    rewardRate: 0,
+    bgColor: '#FFFFFF',
+    txtColor: '#000000',
   },
 ];
 
