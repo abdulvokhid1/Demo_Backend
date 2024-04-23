@@ -6,7 +6,7 @@ import { ConfigModule } from '@nestjs/config';
 import { NoteController } from './note/note.controller';
 import { NoteService } from './note/note.service';
 import { NoteModule } from './note/note.module';
-import { SaleslevelModule } from './saleslevel/Saleslevel.module';
+import { SaleslevelModule } from './saleslevel/saleslevel.module';
 import { CenterModule } from './center/center.module';
 import { LevelModule } from './level/level.module';
 import { CategoryModule } from './category/category.module';
