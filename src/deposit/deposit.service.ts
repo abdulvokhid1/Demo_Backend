@@ -8,13 +8,13 @@ export class DepositService {
   constructor(private readonly prismaService: PrismaService) {}
 
   async calculation_list(params: ParameterDto) {
-    let query = {};
-    params.startDate
-      ? (query = { ...query, depositDate: { gte: params.startDate } })
-      : noop;
-    params.endDate
-      ? (query = { ...query, depositDate: { lte: params.endDate } })
-      : noop;
+    // let query = {};
+    // params.startDate
+    //   ? (query = { ...query, depositDate: { gte: params.startDate } })
+    //   : noop;
+    // params.endDate
+    //   ? (query = { ...query, depositDate: { lte: params.endDate } })
+    //   : noop;
 
     // const list = await this.prismaService.deposit.groupBy(
     //   {
@@ -23,6 +23,23 @@ export class DepositService {
     //
     //   }
     // )
+    const pagination =
+      params.limit && params.page
+        ? `offset ${Number(params.limit) * (Number(params.page) - 1)} limit ${Number(params.limit)}`
+        : '';
+    const list = await this.prismaService.$queryRaw`
+        select users.id, users.name, sub1.id, sub1.name, sub2.id, sub2.name, company_levels.title, depositDate, deposit.amount
+        from users
+                 join users as sub1 on users.id = sub1.recomid
+                 join users as sub2 on sub1.id = sub2.recomid
+                 join deposit  on sub2.id = deposit.userId
+                 join company_levels on users.levelId = company_levels.id
+        where depositDate >= ${params.startDate} and depositDate <= ${params.endDate} and status =1
+        ${pagination}
+        group by users.id;
+    `;
+    console.log(list);
+    return list;
   }
 
   async list(parameters: ParameterDto) {
