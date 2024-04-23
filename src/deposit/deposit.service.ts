@@ -1,11 +1,29 @@
 import { ForbiddenException, Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { DepositDto, ParameterDto } from './dto';
+import { ConfirmDto, DepositDto, ParameterDto } from './dto';
 import { noop } from 'rxjs';
 
 @Injectable()
 export class DepositService {
   constructor(private readonly prismaService: PrismaService) {}
+
+  async calculation_list(params: ParameterDto) {
+    let query = {};
+    params.startDate
+      ? (query = { ...query, depositDate: { gte: params.startDate } })
+      : noop;
+    params.endDate
+      ? (query = { ...query, depositDate: { lte: params.endDate } })
+      : noop;
+
+    // const list = await this.prismaService.deposit.groupBy(
+    //   {
+    //     by: []
+    //     where: query,
+    //
+    //   }
+    // )
+  }
 
   async list(parameters: ParameterDto) {
     let query = {};
@@ -23,7 +41,7 @@ export class DepositService {
       ? (query = {
           ...query,
           user: {
-            name: { contains: parameters.userName},
+            name: { contains: parameters.userName },
           },
         })
       : noop;
@@ -86,5 +104,27 @@ export class DepositService {
         throw new ForbiddenException('Error in credentials');
       }
     }
+  }
+
+  async confirm(params: ConfirmDto) {
+    if (
+      !params ||
+      (params.type != 0 && params.type != 1 && params.type != 2) ||
+      params.list.length < 1
+    ) {
+      throw new ForbiddenException('wrong parameters');
+    }
+    await this.prismaService.deposit.updateMany({
+      where: {
+        id: {
+          in: params.list,
+        },
+      },
+      data: {
+        status: params.type == 1 ? 1 : params.type == 0 ? 0 : 2,
+      },
+    });
+    const list = await this.list(params.query);
+    return list;
   }
 }

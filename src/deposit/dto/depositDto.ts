@@ -27,3 +27,9 @@ export class DepositDto {
 
   method?: number;
 }
+
+export class ConfirmDto {
+  type?: number;
+  list: number[];
+  query?: DepositDto;
+}
