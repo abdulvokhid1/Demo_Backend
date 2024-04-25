@@ -8,6 +8,14 @@ export class DepositController {
   constructor(private readonly depositService: DepositService) {}
 
   @UseGuards(MyJwtGuard)
+  @Post('calculation_detail_list')
+  async calculationDetailList(@Body() parameterDto: ParameterDto) {
+    const list =
+      await this.depositService.calculation_detail_list(parameterDto);
+    return list;
+  }
+
+  @UseGuards(MyJwtGuard)
   @Post('calculation_list')
   async groupList(@Body() parameterDto: ParameterDto) {
     const list = await this.depositService.calculation_list(parameterDto);

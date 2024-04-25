@@ -7,10 +7,11 @@ const main = async () => {
   try {
     await prisma.user.create({
       data: {
-        email: 'admin@gmail.com',
+        email: 'master@gmail.com',
         hashedPassword:
           '$argon2id$v=19$m=65536,t=3,p=4$BJaOMltqvVlvXJCHp4defg$nUooavLqIZ4Lxu1QzzeuUViSpZs4hwzidG+DocS0l/I',
-        name: 'Admin',
+        name: 'master',
+        member_id: 'a0000001',
         role: 'admin',
         address: '',
         address1: '',

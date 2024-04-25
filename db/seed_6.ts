@@ -5,11 +5,11 @@ export const sleep = async (waitTime: number) =>
 
 const userList = [
   {
-    email: 'user1@gmail.com',
+    email: 'user15@gmail.com',
     hashedPassword:
       '$argon2id$v=19$m=65536,t=3,p=4$BJaOMltqvVlvXJCHp4defg$nUooavLqIZ4Lxu1QzzeuUViSpZs4hwzidG+DocS0l/I',
-    name: 'User 1',
-    member_id: 'a0000002',
+    name: 'User 15',
+    member_id: 'a0000016',
     role: 'user',
     address: '',
     address1: '',
@@ -21,7 +21,7 @@ const userList = [
     mobilephone_number: '',
     phone_number: '',
     recom: {
-      connect: { id: 1 },
+      connect: { id: 4 },
     },
     // sponid: '',
     center: {
@@ -36,11 +36,11 @@ const userList = [
     },
   },
   {
-    email: 'user2@gmail.com',
+    email: 'user16@gmail.com',
     hashedPassword:
       '$argon2id$v=19$m=65536,t=3,p=4$BJaOMltqvVlvXJCHp4defg$nUooavLqIZ4Lxu1QzzeuUViSpZs4hwzidG+DocS0l/I',
-    name: 'User 2',
-    member_id: 'a0000003',
+    name: 'User 16',
+    member_id: 'a0000017',
     role: 'user',
     address: '',
     address1: '',
@@ -52,7 +52,7 @@ const userList = [
     mobilephone_number: '',
     phone_number: '',
     recom: {
-      connect: { id: 1 },
+      connect: { id: 4 },
     },
     // sponid: '',
     center: {
@@ -67,11 +67,11 @@ const userList = [
     },
   },
   {
-    email: 'user3@gmail.com',
+    email: 'user17@gmail.com',
     hashedPassword:
       '$argon2id$v=19$m=65536,t=3,p=4$BJaOMltqvVlvXJCHp4defg$nUooavLqIZ4Lxu1QzzeuUViSpZs4hwzidG+DocS0l/I',
-    name: 'User 3',
-    member_id: 'a0000004',
+    name: 'User 17',
+    member_id: 'a0000018',
     role: 'user',
     address: '',
     address1: '',
@@ -83,7 +83,7 @@ const userList = [
     mobilephone_number: '',
     phone_number: '',
     recom: {
-      connect: { id: 1 },
+      connect: { id: 4 },
     },
     // sponid: '',
     center: {
@@ -98,11 +98,11 @@ const userList = [
     },
   },
   {
-    email: 'user4@gmail.com',
+    email: 'user18@gmail.com',
     hashedPassword:
       '$argon2id$v=19$m=65536,t=3,p=4$BJaOMltqvVlvXJCHp4defg$nUooavLqIZ4Lxu1QzzeuUViSpZs4hwzidG+DocS0l/I',
-    name: 'User 4',
-    member_id: 'a0000005',
+    name: 'User 18',
+    member_id: 'a0000019',
     role: 'user',
     address: '',
     address1: '',
@@ -114,7 +114,7 @@ const userList = [
     mobilephone_number: '',
     phone_number: '',
     recom: {
-      connect: { id: 1 },
+      connect: { id: 4 },
     },
     // sponid: '',
     center: {
@@ -129,11 +129,11 @@ const userList = [
     },
   },
   {
-    email: 'user5@gmail.com',
+    email: 'user19@gmail.com',
     hashedPassword:
       '$argon2id$v=19$m=65536,t=3,p=4$BJaOMltqvVlvXJCHp4defg$nUooavLqIZ4Lxu1QzzeuUViSpZs4hwzidG+DocS0l/I',
-    name: 'User 5',
-    member_id: 'a0000006',
+    name: 'User 19',
+    member_id: 'a0000020',
     role: 'user',
     address: '',
     address1: '',
@@ -145,7 +145,131 @@ const userList = [
     mobilephone_number: '',
     phone_number: '',
     recom: {
-      connect: { id: 1 },
+      connect: { id: 4 },
+    },
+    // sponid: '',
+    center: {
+      connect: {
+        id: 1,
+      },
+    },
+    Level: {
+      connect: {
+        id: 1,
+      },
+    },
+  },
+  {
+    email: 'user20@gmail.com',
+    hashedPassword:
+      '$argon2id$v=19$m=65536,t=3,p=4$BJaOMltqvVlvXJCHp4defg$nUooavLqIZ4Lxu1QzzeuUViSpZs4hwzidG+DocS0l/I',
+    name: 'User 20',
+    member_id: 'a0000021',
+    role: 'user',
+    address: '',
+    address1: '',
+    addressdoro: '',
+    zip1: '',
+    zip2: '',
+    // centerId: authDTO.centerId,
+    zonecode: '',
+    mobilephone_number: '',
+    phone_number: '',
+    recom: {
+      connect: { id: 4 },
+    },
+    // sponid: '',
+    center: {
+      connect: {
+        id: 1,
+      },
+    },
+    Level: {
+      connect: {
+        id: 1,
+      },
+    },
+  },
+  {
+    email: 'user21@gmail.com',
+    hashedPassword:
+      '$argon2id$v=19$m=65536,t=3,p=4$BJaOMltqvVlvXJCHp4defg$nUooavLqIZ4Lxu1QzzeuUViSpZs4hwzidG+DocS0l/I',
+    name: 'User 21',
+    member_id: 'a0000022',
+    role: 'user',
+    address: '',
+    address1: '',
+    addressdoro: '',
+    zip1: '',
+    zip2: '',
+    // centerId: authDTO.centerId,
+    zonecode: '',
+    mobilephone_number: '',
+    phone_number: '',
+    recom: {
+      connect: { id: 4 },
+    },
+    // sponid: '',
+    center: {
+      connect: {
+        id: 1,
+      },
+    },
+    Level: {
+      connect: {
+        id: 1,
+      },
+    },
+  },
+  {
+    email: 'user22@gmail.com',
+    hashedPassword:
+      '$argon2id$v=19$m=65536,t=3,p=4$BJaOMltqvVlvXJCHp4defg$nUooavLqIZ4Lxu1QzzeuUViSpZs4hwzidG+DocS0l/I',
+    name: 'User 22',
+    member_id: 'a0000023',
+    role: 'user',
+    address: '',
+    address1: '',
+    addressdoro: '',
+    zip1: '',
+    zip2: '',
+    // centerId: authDTO.centerId,
+    zonecode: '',
+    mobilephone_number: '',
+    phone_number: '',
+    recom: {
+      connect: { id: 4 },
+    },
+    // sponid: '',
+    center: {
+      connect: {
+        id: 1,
+      },
+    },
+    Level: {
+      connect: {
+        id: 1,
+      },
+    },
+  },
+  {
+    email: 'user23@gmail.com',
+    hashedPassword:
+      '$argon2id$v=19$m=65536,t=3,p=4$BJaOMltqvVlvXJCHp4defg$nUooavLqIZ4Lxu1QzzeuUViSpZs4hwzidG+DocS0l/I',
+    name: 'User 23',
+    member_id: 'a0000024',
+    role: 'user',
+    address: '',
+    address1: '',
+    addressdoro: '',
+    zip1: '',
+    zip2: '',
+    // centerId: authDTO.centerId,
+    zonecode: '',
+    mobilephone_number: '',
+    phone_number: '',
+    recom: {
+      connect: { id: 4 },
     },
     // sponid: '',
     center: {

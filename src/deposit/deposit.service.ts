@@ -2,44 +2,88 @@ import { ForbiddenException, Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { ConfirmDto, DepositDto, ParameterDto } from './dto';
 import { noop } from 'rxjs';
+import moment from 'moment-timezone';
 
 @Injectable()
 export class DepositService {
   constructor(private readonly prismaService: PrismaService) {}
 
-  async calculation_list(params: ParameterDto) {
-    // let query = {};
-    // params.startDate
-    //   ? (query = { ...query, depositDate: { gte: params.startDate } })
-    //   : noop;
-    // params.endDate
-    //   ? (query = { ...query, depositDate: { lte: params.endDate } })
-    //   : noop;
+  async calculation_detail_list(params: ParameterDto) {
+    // const offset = Number(params.limit) * (Number(params.page) - 1) || 0;
+    // const limit = Number(params.limit) || 10;
+    const startDate = moment(params.startDate).format('YYYY-MM-DD');
+    const endDate = moment(params.endDate).format('YYYY-MM-DD');
 
-    // const list = await this.prismaService.deposit.groupBy(
-    //   {
-    //     by: []
-    //     where: query,
-    //
-    //   }
-    // )
-    const pagination =
-      params.limit && params.page
-        ? `offset ${Number(params.limit) * (Number(params.page) - 1)} limit ${Number(params.limit)}`
-        : '';
     const list = await this.prismaService.$queryRaw`
-        select users.id, users.name, sub1.id, sub1.name, sub2.id, sub2.name, company_levels.title, depositDate, deposit.amount
+        select users.id id, users.name name, users.member_id memberId,
+               (select subuser.id from users subuser where users.sub1 = subuser.id ) sub1Id,
+               (select subuser.name from users subuser where users.sub1 = subuser.id ) sub1Name,
+               (select subuser.id from users subuser where users.sub2 = subuser.id ) sub2Id,
+               (select subuser.name from users subuser where users.sub2 = subuser.id ) sub2Name,
+               sub.id subId, sub.name subName, sub.member_id subMemberId, 
+               company_levels.id levelId, company_levels.title levelTitle, company_levels.rewardRate rewardAmount,
+               depositDate saleDate, deposit.amount saleAmount, deposit.memo memo
         from users
-                 join users as sub1 on users.id = sub1.recomid
-                 join users as sub2 on sub1.id = sub2.recomid
-                 join deposit  on sub2.id = deposit.userId
+                 left join users as sub on users.id = sub.recomid
+                 left join deposit  on sub.id = deposit.userId
                  join company_levels on users.levelId = company_levels.id
-        where depositDate >= ${params.startDate} and depositDate <= ${params.endDate} and status =1
-        ${pagination}
-        group by users.id;
+        where (depositDate >= ${startDate}
+            and depositDate <= ${endDate} and deposit.amount is not NULL and status = 1) or deposit.amount is null
+        order by users.id, sub.id;
+    `;
+    const selfBalanceList = await this.prismaService.$queryRaw`
+        select users.id id,  users.name, depositDate saleDate, sum(if(deposit.status = 1, deposit.amount, 0)) selfBalance
+        from users
+                 left join deposit  on users.id = deposit.userId
+        where (depositDate >= ${startDate}
+                   
+            and depositDate <= ${endDate} and deposit.amount is not NULL and deposit.status = 1) or deposit.amount is NULL or deposit.status = 0
+        group by users.id
+        order by users.id;
     `;
     console.log(list);
-    return list;
+    return {
+      list: list,
+      selfBalanceList: selfBalanceList,
+    };
+  }
+  async calculation_list(params: ParameterDto) {
+    // const offset = Number(params.limit) * (Number(params.page) - 1) || 0;
+    // const limit = Number(params.limit) || 10;
+    const startDate = moment(params.startDate).format('YYYY-MM-DD');
+    const endDate = moment(params.endDate).format('YYYY-MM-DD');
+
+    const list = await this.prismaService.$queryRaw`
+        select users.id id, users.name name,
+               (select subuser.id from users subuser where users.sub1 = subuser.id ) sub1Id,
+               (select subuser.name from users subuser where users.sub1 = subuser.id ) sub1Name,
+               (select subuser.id from users subuser where users.sub2 = subuser.id ) sub2Id,
+               (select subuser.name from users subuser where users.sub2 = subuser.id ) sub2Name,
+               sub.id subId, sub.name subName, company_levels.id levelId, company_levels.title levelTitle, depositDate saleDate, deposit.amount saleAmount
+        from users
+                 left join users as sub on users.id = sub.recomid
+                 left join deposit  on sub.id = deposit.userId
+                 join company_levels on users.levelId = company_levels.id
+        where (depositDate >= ${startDate}
+            and depositDate <= ${endDate} and deposit.amount is not NULL and status = 1) or deposit.amount is null
+        group by users.id, sub.id
+        order by users.id, sub.id;
+    `;
+    const selfBalanceList = await this.prismaService.$queryRaw`
+        select users.id id,  users.name, depositDate saleDate, sum(if(deposit.status = 1, deposit.amount, 0)) selfBalance
+        from users
+                 left join deposit  on users.id = deposit.userId
+        where (depositDate >= ${startDate}
+                   
+            and depositDate <= ${endDate} and deposit.amount is not NULL and deposit.status = 1) or deposit.amount is NULL or deposit.status = 0
+        group by users.id
+        order by users.id;
+    `;
+    console.log(list);
+    return {
+      list: list,
+      selfBalanceList: selfBalanceList,
+    };
   }
 
   async list(parameters: ParameterDto) {

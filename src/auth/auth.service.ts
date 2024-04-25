@@ -78,6 +78,32 @@ export class AuthService {
           },
         },
       });
+      const recomUser = await this.prismaService.user.findUnique({
+        where: {
+          id: authDTO.recomid ? Number(authDTO.recomid) : 1,
+        },
+      });
+      if (recomUser.sub1) {
+        await this.prismaService.user.update({
+          where: {
+            id: recomUser.id,
+          },
+          data: {
+            sub1: inserted_id,
+          },
+        });
+      } else {
+        if (recomUser.sub2) {
+          await this.prismaService.user.update({
+            where: {
+              id: recomUser.id,
+            },
+            data: {
+              sub2: inserted_id,
+            },
+          });
+        }
+      }
       return {
         // access_token: this.signJwtToken(user.id, user.email),
         profile: {

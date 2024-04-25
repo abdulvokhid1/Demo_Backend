@@ -6,7 +6,7 @@
   "private": true,
   "license": "MIT",
   "scripts": {
-    "prisma:dev": "prisma migrate reset && prisma migrate dev && ts-node db/seed_1.ts && ts-node db/seed_2.ts && ts-node db/seed_3.ts",
+    "prisma:dev": "prisma migrate reset && prisma migrate dev && ts-node db/seed_1.ts && ts-node db/seed_2.ts && ts-node db/seed_3.ts && ts-node db/seed_4.ts  && ts-node db/seed_5.ts && ts-node db/seed_6.ts && ts-node db/seed_final.ts",
     "prisma:dev:deploy": "prisma migrate deploy",
     "prisma:test:deploy": "dotenv -e .env.test -- prisma migrate deploy",
     "build": "nest build",
@@ -38,6 +38,7 @@
     "class-validator": "^0.14.1",
     "dotenv": "^16.4.5",
     "dotenv-cli": "^7.4.0",
+    "moment-timezone": "^0.5.45",
     "passport": "^0.7.0",
     "passport-jwt": "^4.0.1",
     "reflect-metadata": "^0.2.0",

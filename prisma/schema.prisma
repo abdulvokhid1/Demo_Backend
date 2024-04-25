@@ -47,6 +47,8 @@ model User {
   recomid            Int?
   recom              User?   @relation("Recommendation", fields: [recomid], references: [id])
   subs               User[]  @relation("Recommendation")
+  sub1               Int?    @default(0)
+  sub2               Int?    @default(0)
   sponid             Int?
   return_bank        String?
   return_account     String?

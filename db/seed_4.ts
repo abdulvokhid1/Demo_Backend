@@ -5,11 +5,11 @@ export const sleep = async (waitTime: number) =>
 
 const userList = [
   {
-    email: 'user1@gmail.com',
+    email: 'user6@gmail.com',
     hashedPassword:
       '$argon2id$v=19$m=65536,t=3,p=4$BJaOMltqvVlvXJCHp4defg$nUooavLqIZ4Lxu1QzzeuUViSpZs4hwzidG+DocS0l/I',
-    name: 'User 1',
-    member_id: 'a0000002',
+    name: 'User 6',
+    member_id: 'a0000007',
     role: 'user',
     address: '',
     address1: '',
@@ -21,7 +21,7 @@ const userList = [
     mobilephone_number: '',
     phone_number: '',
     recom: {
-      connect: { id: 1 },
+      connect: { id: 2 },
     },
     // sponid: '',
     center: {
@@ -36,11 +36,11 @@ const userList = [
     },
   },
   {
-    email: 'user2@gmail.com',
+    email: 'user7@gmail.com',
     hashedPassword:
       '$argon2id$v=19$m=65536,t=3,p=4$BJaOMltqvVlvXJCHp4defg$nUooavLqIZ4Lxu1QzzeuUViSpZs4hwzidG+DocS0l/I',
-    name: 'User 2',
-    member_id: 'a0000003',
+    name: 'User 7',
+    member_id: 'a0000008',
     role: 'user',
     address: '',
     address1: '',
@@ -52,7 +52,7 @@ const userList = [
     mobilephone_number: '',
     phone_number: '',
     recom: {
-      connect: { id: 1 },
+      connect: { id: 2 },
     },
     // sponid: '',
     center: {
@@ -67,11 +67,11 @@ const userList = [
     },
   },
   {
-    email: 'user3@gmail.com',
+    email: 'user8@gmail.com',
     hashedPassword:
       '$argon2id$v=19$m=65536,t=3,p=4$BJaOMltqvVlvXJCHp4defg$nUooavLqIZ4Lxu1QzzeuUViSpZs4hwzidG+DocS0l/I',
-    name: 'User 3',
-    member_id: 'a0000004',
+    name: 'User 8',
+    member_id: 'a0000009',
     role: 'user',
     address: '',
     address1: '',
@@ -83,7 +83,7 @@ const userList = [
     mobilephone_number: '',
     phone_number: '',
     recom: {
-      connect: { id: 1 },
+      connect: { id: 2 },
     },
     // sponid: '',
     center: {
@@ -98,11 +98,11 @@ const userList = [
     },
   },
   {
-    email: 'user4@gmail.com',
+    email: 'user9@gmail.com',
     hashedPassword:
       '$argon2id$v=19$m=65536,t=3,p=4$BJaOMltqvVlvXJCHp4defg$nUooavLqIZ4Lxu1QzzeuUViSpZs4hwzidG+DocS0l/I',
-    name: 'User 4',
-    member_id: 'a0000005',
+    name: 'User 9',
+    member_id: 'a0000010',
     role: 'user',
     address: '',
     address1: '',
@@ -114,38 +114,7 @@ const userList = [
     mobilephone_number: '',
     phone_number: '',
     recom: {
-      connect: { id: 1 },
-    },
-    // sponid: '',
-    center: {
-      connect: {
-        id: 1,
-      },
-    },
-    Level: {
-      connect: {
-        id: 1,
-      },
-    },
-  },
-  {
-    email: 'user5@gmail.com',
-    hashedPassword:
-      '$argon2id$v=19$m=65536,t=3,p=4$BJaOMltqvVlvXJCHp4defg$nUooavLqIZ4Lxu1QzzeuUViSpZs4hwzidG+DocS0l/I',
-    name: 'User 5',
-    member_id: 'a0000006',
-    role: 'user',
-    address: '',
-    address1: '',
-    addressdoro: '',
-    zip1: '',
-    zip2: '',
-    // centerId: authDTO.centerId,
-    zonecode: '',
-    mobilephone_number: '',
-    phone_number: '',
-    recom: {
-      connect: { id: 1 },
+      connect: { id: 2 },
     },
     // sponid: '',
     center: {
