@@ -1,13 +1,112 @@
 import { ForbiddenException, Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { ConfirmDto, DepositDto, ParameterDto } from './dto';
+import {
+  CalculationCompletionQueryType,
+  CalculationCompletionType,
+  ConfirmDto,
+  DepositDto,
+  ParameterDto,
+} from './dto';
 import { noop } from 'rxjs';
 import moment from 'moment-timezone';
+import { LevelDto } from '../level/dto';
 
 @Injectable()
 export class DepositService {
   constructor(private readonly prismaService: PrismaService) {}
 
+  async confirm_calculation(params: CalculationCompletionType) {
+    if (!params || !params.item.length)
+      throw new ForbiddenException('no record');
+    await Promise.all(
+      params.item.map(async (item: CalculationCompletionQueryType) => {
+        await this.prismaService.calculation.create({
+          data: {
+            user: {
+              connect: {
+                id: item.userId,
+              },
+            },
+            userLevel: item.levelId,
+            reward: item.rewardAmount,
+            tax: (item.rewardAmount * 3.3) / 100,
+            realReward: (item.rewardAmount * 96.7) / 100,
+            // memo: null,
+            startDate: item.startDate,
+            endDate: item.endDate,
+          },
+        });
+        // await Promise.all(
+        //   item.deposits.map(async (i: number) => {
+        //     await this.prismaService.deposit.update({
+        //       where: {
+        //         id: i,
+        //       },
+        //       data: {
+        //         canculation: {
+        //           connect: {
+        //             id: i,
+        //           },
+        //         },
+        //         isCalculated: true,
+        //       },
+        //     });
+        //   }),
+        // );
+      }),
+    );
+
+    const newCals = await this.prismaService.calculation.findMany({
+      orderBy: {
+        id: 'desc',
+      },
+      take: params.item.length,
+    });
+    newCals.map(async (item, index) => {
+      const parameter: number[] = [];
+      params.item.map((param) => {
+        param.userId == item.userId ? parameter.push(...param.deposits) : noop;
+      });
+      await Promise.all(
+        parameter.map(async (deposit) => {
+          await this.prismaService.deposit.update({
+            where: {
+              id: deposit,
+            },
+            data: {
+              calId: item.id,
+            },
+          });
+        }),
+      );
+      console.log(item);
+    });
+  }
+  async confirm_calculation_bk(params: ParameterDto) {
+    const startDate = moment(params.startDate).format('YYYY-MM-DD');
+    const endDate = moment(params.endDate).format('YYYY-MM-DD');
+
+    const list = await this.prismaService.$queryRaw`
+      select users.id id, users.name name, users.member_id memberId, users.sub1, users.sub2, users.return_account bankAccount,
+         (select subuser.member_id from users subuser where users.sub1 = subuser.id ) sub1MemberId,
+         (select subuser.member_id from users subuser where users.sub2 = subuser.id ) sub2MemberId,
+         company_levels.title levelTitle, sum(company_levels.rewardRate) rewardAmount
+      from users
+               join users as sub on users.id = sub.recomid
+               join deposit  on sub.id = deposit.userId
+               join company_levels on users.levelId = company_levels.id
+      where depositDate >= ${startDate}
+          and depositDate <= ${endDate}
+          and deposit.amount <> 0
+          and deposit.status = 1
+          and sub.id <>  users.sub1
+          and sub.id <> users.sub2
+      group by users.id
+      order by users.id;`;
+    return {
+      list: list,
+    };
+  }
   async calculation_detail_list(params: ParameterDto) {
     // const offset = Number(params.limit) * (Number(params.page) - 1) || 0;
     // const limit = Number(params.limit) || 10;
@@ -15,20 +114,26 @@ export class DepositService {
     const endDate = moment(params.endDate).format('YYYY-MM-DD');
 
     const list = await this.prismaService.$queryRaw`
-        select users.id id, users.name name, users.member_id memberId,
-               (select subuser.id from users subuser where users.sub1 = subuser.id ) sub1Id,
+        select users.id id, users.name name, users.member_id memberId, users.sub1 sub1Id, users.sub2 sub2Id, users.return_account bankAccount,
+               #        (select subuser.id from users subuser where users.sub1 = subuser.id ) sub1Id,
                (select subuser.name from users subuser where users.sub1 = subuser.id ) sub1Name,
-               (select subuser.id from users subuser where users.sub2 = subuser.id ) sub2Id,
+               #        (select subuser.id from users subuser where users.sub2 = subuser.id ) sub2Id,
                (select subuser.name from users subuser where users.sub2 = subuser.id ) sub2Name,
-               sub.id subId, sub.name subName, sub.member_id subMemberId, 
+               sub.id subId, sub.name subName, sub.member_id subMemberId,
                company_levels.id levelId, company_levels.title levelTitle, company_levels.rewardRate rewardAmount,
-               depositDate saleDate, deposit.amount saleAmount, deposit.memo memo
+               deposit.id saleId, deposit.depositDate saleDate, deposit.amount saleAmount, deposit.memo memo
         from users
-                 left join users as sub on users.id = sub.recomid
-                 left join deposit  on sub.id = deposit.userId
+                 join users as sub on users.id = sub.recomid
+                 join deposit  on sub.id = deposit.userId
                  join company_levels on users.levelId = company_levels.id
-        where (depositDate >= ${startDate}
-            and depositDate <= ${endDate} and deposit.amount is not NULL and status = 1) or deposit.amount is null
+        where depositDate >= ${startDate}
+          and depositDate <= ${endDate}
+          and deposit.isCalculated = false
+          and deposit.amount <> 0
+          and deposit.status = 1
+          and sub.id <>  users.sub1
+          and sub.id <> users.sub2
+        and deposit.calId is NULL
         order by users.id, sub.id;
     `;
     const selfBalanceList = await this.prismaService.$queryRaw`
@@ -36,12 +141,16 @@ export class DepositService {
         from users
                  left join deposit  on users.id = deposit.userId
         where (depositDate >= ${startDate}
-                   
-            and depositDate <= ${endDate} and deposit.amount is not NULL and deposit.status = 1) or deposit.amount is NULL or deposit.status = 0
+                   and depositDate <= ${endDate} 
+                   and deposit.amount is not NULL 
+                   and deposit.status = 1
+                   and deposit.calId is NULL
+                    ) 
+           or deposit.amount is NULL or deposit.status = 0
         group by users.id
         order by users.id;
     `;
-    console.log(list);
+    // console.log(list);
     return {
       list: list,
       selfBalanceList: selfBalanceList,
@@ -65,7 +174,11 @@ export class DepositService {
                  left join deposit  on sub.id = deposit.userId
                  join company_levels on users.levelId = company_levels.id
         where (depositDate >= ${startDate}
-            and depositDate <= ${endDate} and deposit.amount is not NULL and status = 1) or deposit.amount is null
+            and depositDate <= ${endDate} 
+                   and deposit.isCalculated = false
+                   and deposit.amount is not NULL 
+                   and status = 1) 
+           or deposit.amount is null
         group by users.id, sub.id
         order by users.id, sub.id;
     `;
@@ -74,8 +187,10 @@ export class DepositService {
         from users
                  left join deposit  on users.id = deposit.userId
         where (depositDate >= ${startDate}
-                   
-            and depositDate <= ${endDate} and deposit.amount is not NULL and deposit.status = 1) or deposit.amount is NULL or deposit.status = 0
+                   and depositDate <= ${endDate}
+                   and deposit.isCalculated = false
+                   and deposit.amount is not NULL 
+                   and deposit.status = 1) or deposit.amount is NULL or deposit.status = 0
         group by users.id
         order by users.id;
     `;

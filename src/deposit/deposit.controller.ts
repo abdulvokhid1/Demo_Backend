@@ -1,11 +1,18 @@
 import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
 import { MyJwtGuard } from '../auth/guard';
-import { ConfirmDto, DepositDto, ParameterDto } from './dto';
+import { CalculationCompletionType, ConfirmDto, DepositDto, ParameterDto } from './dto';
 import { DepositService } from './deposit.service';
 
 @Controller('deposit')
 export class DepositController {
   constructor(private readonly depositService: DepositService) {}
+
+  @UseGuards(MyJwtGuard)
+  @Post('confirm_calculation')
+  async confirmCalculation(@Body() parameterDto: CalculationCompletionType) {
+    const list = await this.depositService.confirm_calculation(parameterDto);
+    return list;
+  }
 
   @UseGuards(MyJwtGuard)
   @Post('calculation_detail_list')

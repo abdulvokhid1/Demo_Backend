@@ -54,16 +54,17 @@ model User {
   return_account     String?
   return_name        String?
 
-  createdAt DateTime     @default(now())
-  updatedAt DateTime     @updatedAt
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
   // relationship
-  notes     Note[]
-  deposits  Deposit[]
-  role      String
-  centerId  Int          @default(0)
-  center    Center       @relation(fields: [centerId], references: [id])
-  levelId   Int          @default(0)
-  Level     CompanyLevel @relation(fields: [levelId], references: [id])
+  notes       Note[]
+  deposits    Deposit[]
+  calculation Calculation[]
+  role        String
+  centerId    Int           @default(0)
+  center      Center        @relation(fields: [centerId], references: [id])
+  levelId     Int           @default(0)
+  Level       CompanyLevel  @relation(fields: [levelId], references: [id])
 
   @@map("users") // users id "table's name" in Postgres SQL
 }
@@ -203,18 +204,41 @@ model CategoryProduct {
 }
 
 model Deposit {
-  id          Int      @id @default(autoincrement())
-  depositDate DateTime @default(now())
-  userId      Int // like "foreign key"
-  user        User     @relation(fields: [userId], references: [id])
-  amount      Float
-  status      Int      @default(0)
-  fee         Int      @default(0)
-  isRewarded  Int      @default(0)
-  method      Int      @default(0)
-  memo        String   @default("")
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @default(now()) @updatedAt
+  id           Int          @id @default(autoincrement())
+  depositDate  DateTime     @default(now())
+  userId       Int // like "foreign key"
+  user         User         @relation(fields: [userId], references: [id])
+  amount       Float
+  status       Int          @default(0)
+  fee          Int          @default(0)
+  isRewarded   Int          @default(0)
+  method       Int          @default(0)
+  memo         String       @default("")
+  isCalculated Boolean      @default(false)
+  calId        Int?
+  canculation  Calculation? @relation(fields: [calId], references: [id])
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @default(now()) @updatedAt
 
   @@map("deposit")
+}
+
+model Calculation {
+  id          Int       @id @default(autoincrement())
+  userId      Int
+  user        User      @relation(fields: [userId], references: [id])
+  deposits    Deposit[]
+  isPaid      Boolean   @default(false)
+  userLevel   Int
+  reward      Float     @default(0)
+  tax         Float     @default(0)
+  realReward  Float     @default(0)
+  memo        String?
+  bankAccount String?
+  startDate   DateTime
+  endDate     DateTime
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @default(now()) @updatedAt
+
+  @@map("calculation")
 }
