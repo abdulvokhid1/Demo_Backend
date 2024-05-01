@@ -9,6 +9,13 @@ import { ParameterDto } from './dto';
 export class UserController {
   constructor(private userService: UserService) {}
 
+  @Post('list_without_access')
+  async list_without_access(@Body() parameterDto: ParameterDto) {
+    // console.log(request.user);
+    const users = await this.userService.list_without_access(parameterDto);
+    return users;
+  }
+
   @UseGuards(MyJwtGuard)
   @Post('list')
   async list(@Body() parameterDto: ParameterDto) {

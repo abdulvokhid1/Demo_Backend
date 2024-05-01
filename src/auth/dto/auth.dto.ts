@@ -10,6 +10,16 @@ export class AuthDto {
   password: string;
 }
 
+export class AuthUserDto {
+  @IsString()
+  @IsNotEmpty()
+  memberId: string;
+
+  @IsString()
+  @IsNotEmpty()
+  password: string;
+}
+
 export class AuthRegisterDto {
   @IsNotEmpty()
   name: string;
