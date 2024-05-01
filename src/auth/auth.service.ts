@@ -258,6 +258,31 @@ export class AuthService {
       where: {
         member_id: authDTO.memberId,
       },
+      select: {
+        id: true,
+        hashedPassword: true,
+        member_id: true,
+        email: true,
+        name: true,
+        mobilephone_number: true,
+        phone_number: true,
+        sponid: true,
+        recom: {
+          select: { id: true, name: true },
+        },
+        Level: {
+          select: { id: true, title: true },
+        },
+        center: {
+          select: {
+            id: true,
+            name: true,
+            description: true,
+            createdAt: true,
+            updatedAt: true,
+          },
+        },
+      },
     });
     if (!user) {
       throw new ForbiddenException('User not found');
