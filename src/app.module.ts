@@ -11,6 +11,7 @@ import { CenterModule } from './center/center.module';
 import { LevelModule } from './level/level.module';
 import { CategoryModule } from './category/category.module';
 import { DepositModule } from './deposit/deposit.module';
+import { UploadModule } from './upload/upload.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { DepositModule } from './deposit/deposit.module';
     PrismaModule,
     CategoryModule,
     DepositModule,
+    UploadModule,
   ],
   controllers: [NoteController],
   providers: [NoteService],

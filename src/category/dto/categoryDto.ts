@@ -1,14 +1,20 @@
-import { IsString } from 'class-validator';
-
 export class ParameterDto {
-  page?: number;
-
-  limit?: number;
+  depth?: number;
+  parent?: number;
+  asc?: boolean;
 }
 
 export class CategoryDto {
-  @IsString()
-  name: string;
+  id?: number;
+  name?: string;
+  order?: number;
+  isActive?: boolean;
+  imgId?: number;
+  depth?: number;
+  parentId?: number;
+  subs?: CategoryDto[];
+}
 
-  owner: number;
+export class UploadDTO {
+  image: any;
 }

@@ -169,21 +169,70 @@ model saleregister {
 }
 
 model Product {
-  id         Int               @id @default(autoincrement())
-  name       String
-  categories CategoryProduct[]
+  id               Int               @id @default(autoincrement())
+  name             String
+  isActive         Boolean
+  sellType         Int               @default(1)
+  startSellDate    DateTime?
+  endSellDate      DateTime?
+  code             String
+  categories       CategoryProduct[]
+  followedBy       Follows[]         @relation("followedBy")
+  following        Follows[]         @relation("following")
+  provider         String?
+  isDeliveriable   Boolean
+  price_origin     Float?
+  price_sell       Float?
+  price_provider   Float?
+  cardFee          Float             @default(0)
+  vat              Float             @default(0)
+  amountPV         Float             @default(0)
+  pricePV          Float             @default(0)
+  isDuplicatable   Boolean           @default(true)
+  mileage          Float             @default(0)
+  quantity         Float             @default(0)
+  maxPerSell       Float?
+  soldQuantity     Float?            @default(0)
+  producer         String?
+  origin           String?
+  branch           String?
+  shortDescription String?
+  useGuideInfo     String?
+  prodGuideInfo    String?
+  description      String?
+  description_m    String?
+  detailImg        Int?
+  listImg          Int?
+  thumbnailImg     Int?
+  extraImg1        Int?
+  extraImg2        Int?
+  extraImg3        Int?
+  extraImg4        Int?
+  extraImg5        Int?
 
   @@map("product")
+}
+
+model Follows {
+  followedBy   Product @relation("followedBy", fields: [followedById], references: [id])
+  followedById Int
+  following    Product @relation("following", fields: [followingId], references: [id])
+  followingId  Int
+
+  @@id([followingId, followedById])
+  @@map("follows")
 }
 
 model Category {
   id        Int               @id @default(autoincrement())
   name      String
-  isActive  YESNO
-  img       String
-  parentId  Int?
-  parent    Category?         @relation("SubCategory", fields: [parentId], references: [id])
-  subs      Category[]        @relation("SubCategory")
+  isActive  Boolean           @default(true)
+  order     Int?
+  img       Int
+  depth     Int               @default(1)
+  parentid  Int?
+  parent    Category?         @relation("Parent", fields: [parentid], references: [id])
+  subs      Category[]        @relation("Parent")
   products  CategoryProduct[]
   createdAt DateTime          @default(now())
   updatedAt DateTime          @default(now()) @updatedAt
@@ -241,4 +290,15 @@ model Calculation {
   updatedAt   DateTime  @default(now()) @updatedAt
 
   @@map("calculation")
+}
+
+model Localfiles {
+  id        Int      @id @default(autoincrement())
+  filename  String
+  path      String
+  mimetype  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@map("localfiles")
 }

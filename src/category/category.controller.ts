@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Post, UseGuards } from '@nestjs/common';
 import { MyJwtGuard } from '../auth/guard';
 import { ParameterDto } from './dto';
 import { CategoryService } from './category.service';
@@ -8,25 +8,25 @@ import { CategoryDto } from './dto';
 export class CategoryController {
   constructor(private readonly categoryService: CategoryService) {}
 
-  @UseGuards(MyJwtGuard)
+  // @UseGuards(MyJwtGuard)
   @Post('list')
-  async list(@Body() parameterDto: ParameterDto) {
+  async list(@Body() params: ParameterDto) {
     // console.log(request.user);
-    const list = await this.categoryService.list(parameterDto);
+    const list = await this.categoryService.list(params);
     return list;
   }
 
   // @UseGuards(AuthGuard('jwt'))
   @UseGuards(MyJwtGuard)
-  @Get('update')
-  async update() {
+  @Post('update')
+  async update(@Body() params: CategoryDto) {
     // console.log(request.user);
-    const category = await this.categoryService.update();
+    const category = await this.categoryService.update(params);
     return category;
   }
   // @UseGuards(AuthGuard('jwt'))
   @UseGuards(MyJwtGuard)
-  @Get('update')
+  @Post('create')
   async create(@Body() params: CategoryDto) {
     // console.log(request.user);
     const category = await this.categoryService.create(params);

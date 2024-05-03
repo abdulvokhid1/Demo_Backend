@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { ParameterDto } from './dto';
-import { noop } from 'rxjs';
+import noop from 'noop-ts';
 
 @Injectable()
 export class UserService {
