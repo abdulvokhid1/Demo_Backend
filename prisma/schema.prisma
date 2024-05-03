@@ -169,46 +169,52 @@ model saleregister {
 }
 
 model Product {
-  id               Int               @id @default(autoincrement())
-  name             String
-  isActive         Boolean
-  sellType         Int               @default(1)
-  startSellDate    DateTime?
-  endSellDate      DateTime?
-  code             String
-  categories       CategoryProduct[]
-  followedBy       Follows[]         @relation("followedBy")
-  following        Follows[]         @relation("following")
-  provider         String?
-  isDeliveriable   Boolean
-  price_origin     Float?
-  price_sell       Float?
-  price_provider   Float?
-  cardFee          Float             @default(0)
-  vat              Float             @default(0)
-  amountPV         Float             @default(0)
-  pricePV          Float             @default(0)
-  isDuplicatable   Boolean           @default(true)
-  mileage          Float             @default(0)
-  quantity         Float             @default(0)
-  maxPerSell       Float?
-  soldQuantity     Float?            @default(0)
-  producer         String?
-  origin           String?
-  branch           String?
-  shortDescription String?
-  useGuideInfo     String?
-  prodGuideInfo    String?
-  description      String?
-  description_m    String?
-  detailImg        Int?
-  listImg          Int?
-  thumbnailImg     Int?
-  extraImg1        Int?
-  extraImg2        Int?
-  extraImg3        Int?
-  extraImg4        Int?
-  extraImg5        Int?
+  id                 Int               @id @default(autoincrement())
+  name               String
+  isActive           Boolean
+  sellType           Int               @default(1)
+  startSellDate      DateTime?
+  endSellDate        DateTime?
+  code               String
+  categories         CategoryProduct[]
+  followedBy         Follows[]         @relation("followedBy")
+  following          Follows[]         @relation("following")
+  customercode       String?
+  isDeliveriable     Boolean?          @default(false)
+  price_origin       Float?
+  price_sell         Float?
+  price_provider     Float?
+  cardFee            Float             @default(0)
+  vat                Float             @default(0)
+  amountPV           Float             @default(0)
+  pricePV            Float             @default(0)
+  isDuplicatable     Boolean           @default(true)
+  mileage            Float             @default(0)
+  quantity           Float             @default(0)
+  maxPerSell         Float?
+  soldQuantity       Float?            @default(0)
+  producer           String?
+  origin             String?
+  branch             String?
+  short_desc         String?
+  is_guide_img       Boolean           @default(false)
+  guide_img_id       Int?
+  guide_info         String?           @db.Text()
+  is_prod_info_img   Boolean           @default(false)
+  prod_img_id        Int?
+  prod_info          String?           @db.Text()
+  is_description_img Boolean           @default(false)
+  description_img_id Int?
+  description        String?           @db.Text()
+  m_desc             String?
+  mainImg            Int?
+  listImg            Int?
+  thumbnailImg       Int?
+  extraImg1          Int?
+  extraImg2          Int?
+  extraImg3          Int?
+  extraImg4          Int?
+  extraImg5          Int?
 
   @@map("product")
 }

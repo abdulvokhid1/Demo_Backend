@@ -11,7 +11,8 @@ import {
   Res,
   StreamableFile,
   UploadedFile,
-  UseFilters, UseGuards,
+  UseFilters,
+  UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import { Response } from 'express';
@@ -41,6 +42,38 @@ export class UploadController {
       new ParseFilePipe({
         validators: [
           new MaxFileSizeValidator({ maxSize: 10 * 1000 * 1024 }), // 1MB
+          new FileTypeValidator({
+            fileType:
+              /(jpg|jpeg|png|gif|pdf|msword|plain|doc|docx|vnd.openxmlformats-officedocument.wordprocessingml.document)$/,
+          }),
+        ],
+      }),
+    )
+    file: Express.Multer.File,
+    @Body() data: UploadDTO,
+  ) {
+    const newFile = await this.service.saveLocalFileData({
+      path: file.path || '',
+      filename: file.originalname || '',
+      mimetype: file.mimetype || 'image/png',
+    });
+
+    return newFile.id;
+  }
+
+  @UseGuards(MyJwtGuard)
+  @Post('upload_product')
+  @UseInterceptors(
+    LocalFilesInterceptor({
+      fieldName: 'image',
+      path: '/product',
+    }),
+  )
+  async uploadProductFile(
+    @UploadedFile(
+      new ParseFilePipe({
+        validators: [
+          new MaxFileSizeValidator({ maxSize: 10 * 1000 * 10240 }), // 10MB
           new FileTypeValidator({
             fileType:
               /(jpg|jpeg|png|gif|pdf|msword|plain|doc|docx|vnd.openxmlformats-officedocument.wordprocessingml.document)$/,

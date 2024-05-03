@@ -12,6 +12,7 @@ import { LevelModule } from './level/level.module';
 import { CategoryModule } from './category/category.module';
 import { DepositModule } from './deposit/deposit.module';
 import { UploadModule } from './upload/upload.module';
+import { ProductModule } from './product/product.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { UploadModule } from './upload/upload.module';
     CategoryModule,
     DepositModule,
     UploadModule,
+    ProductModule,
   ],
   controllers: [NoteController],
   providers: [NoteService],
