@@ -123,7 +123,7 @@ export class UploadController {
     @Param('id') id: number,
     @Res({ passthrough: true }) response: Response,
   ) {
-    const file = await this.service.getFileById(id);
+    const file = await this.service.getFileById(Number(id));
     if (existsSync(join(process.cwd(), file.path))) {
       const stream = createReadStream(join(process.cwd(), file.path));
       response.set({

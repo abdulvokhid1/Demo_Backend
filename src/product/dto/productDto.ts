@@ -1,7 +1,9 @@
 export class ParameterDto {
-  depth?: number;
-  parent?: number;
-  asc?: boolean;
+  id?: number;
+  name?: string;
+  code?: string;
+  page?: number;
+  limit?: number;
 }
 
 export class ProductDto {

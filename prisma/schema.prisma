@@ -198,23 +198,35 @@ model Product {
   branch             String?
   short_desc         String?
   is_guide_img       Boolean           @default(false)
-  guide_img_id       Int?
+  guide_img_id       Int?              @unique
+  guideLocal         Localfiles?       @relation("guide", fields: [guide_img_id], references: [id])
   guide_info         String?           @db.Text()
   is_prod_info_img   Boolean           @default(false)
-  prod_img_id        Int?
+  prod_img_id        Int?              @unique
+  prodLocal          Localfiles?       @relation("prod", fields: [prod_img_id], references: [id])
   prod_info          String?           @db.Text()
   is_description_img Boolean           @default(false)
-  description_img_id Int?
+  description_img_id Int?              @unique
+  descLocal          Localfiles?       @relation("description", fields: [description_img_id], references: [id])
   description        String?           @db.Text()
   m_desc             String?
-  mainImg            Int?
-  listImg            Int?
-  thumbnailImg       Int?
-  extraImg1          Int?
-  extraImg2          Int?
-  extraImg3          Int?
-  extraImg4          Int?
-  extraImg5          Int?
+  mainImg            Int?              @unique
+  mainlocal          Localfiles?       @relation("main", fields: [mainImg], references: [id])
+  listImg            Int?              @unique
+  listlocal          Localfiles?       @relation("list", fields: [listImg], references: [id])
+  thumbnailImg       Int?              @unique
+  thumbnaillocal     Localfiles?       @relation("thumbnail", fields: [thumbnailImg], references: [id])
+  extraImg1          Int               @unique
+  extralocal1        Localfiles?       @relation("extra1", fields: [extraImg1], references: [id])
+  extraImg2          Int?              @unique
+  extralocal2        Localfiles?       @relation("extra2", fields: [extraImg2], references: [id])
+  extraImg3          Int?              @unique
+  extralocal3        Localfiles?       @relation("extra3", fields: [extraImg3], references: [id])
+  extraImg4          Int?              @unique
+  extralocal4        Localfiles?       @relation("extra4", fields: [extraImg4], references: [id])
+  extraImg5          Int?              @unique
+  extralocal5        Localfiles?       @relation("extra5", fields: [extraImg5], references: [id])
+  isDeleted          Boolean           @default(false)
 
   @@map("product")
 }
@@ -299,12 +311,23 @@ model Calculation {
 }
 
 model Localfiles {
-  id        Int      @id @default(autoincrement())
-  filename  String
-  path      String
-  mimetype  String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
+  id           Int      @id @default(autoincrement())
+  filename     String
+  path         String
+  mimetype     String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @default(now()) @updatedAt
+  guideImg     Product? @relation("guide")
+  prodImg      Product? @relation("prod")
+  descImg      Product? @relation("description")
+  extraImg1    Product? @relation("extra1")
+  extraImg2    Product? @relation("extra2")
+  extraImg3    Product? @relation("extra3")
+  extraImg4    Product? @relation("extra4")
+  extraImg5    Product? @relation("extra5")
+  mainImg      Product? @relation("main")
+  listImg      Product? @relation("list")
+  thumbnailImg Product? @relation("thumbnail")
 
   @@map("localfiles")
 }

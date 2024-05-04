@@ -44,7 +44,9 @@ export class CategoryService {
     }
     let data = {};
     params.name ? (data = { ...data, name: params.name }) : noop;
-    params.isActive ? (data = { ...data, isActive: true }) : noop;
+    params.isActive != undefined
+      ? (data = { ...data, isActive: params.isActive })
+      : noop;
     params.imgId ? (data = { ...data, img: params.imgId }) : noop;
     const newCat = await this.prismaService.category.update({
       where: {
