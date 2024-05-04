@@ -1,9 +1,9 @@
 import { Controller, Get, UseGuards } from '@nestjs/common';
 import { MyJwtGuard } from '../auth/guard';
-import { saleregisterService } from './saleregister.service';
+import { SaleregisterService } from './saleregister.service';
 @Controller('saleregister')
 export class saleregisterController {
-  constructor(private saleregisterService: saleregisterService) {}
+  constructor(private saleregisterService: SaleregisterService) {}
   @UseGuards(MyJwtGuard)
   @Get('list')
   async list() {

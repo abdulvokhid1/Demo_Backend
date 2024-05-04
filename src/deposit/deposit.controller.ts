@@ -1,7 +1,16 @@
-import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
 import { MyJwtGuard } from '../auth/guard';
-import { CalculationCompletionType, ConfirmDto, DepositDto, ParameterDto } from './dto';
+import {
+  CalculationCompletionType,
+  ConfirmDto,
+  DepositByUserDto,
+  DepositDto,
+  ParameterDto,
+} from './dto';
 import { DepositService } from './deposit.service';
+import { RolesGuard } from '../auth/guard/roles.guard';
+import { Role } from '../auth/decorator/role.enum';
+import { HasRoles } from '../auth/decorator/has-roles.decorator';
 
 @Controller('deposit')
 export class DepositController {
@@ -46,11 +55,20 @@ export class DepositController {
     return center;
   }
   // @UseGuards(AuthGuard('jwt'))
-  @UseGuards(MyJwtGuard)
+  @UseGuards(MyJwtGuard, RolesGuard)
+  @HasRoles(Role.Admin)
   @Post('create')
   async create(@Body() params: DepositDto) {
     // console.log(request.user);
     const deposit = await this.depositService.create(params);
+    return deposit;
+  }
+
+  @UseGuards(MyJwtGuard)
+  @Post('create_by_user')
+  async createByUser(@Body() params: DepositByUserDto, @Req() req) {
+    // console.log(request.user);
+    const deposit = await this.depositService.createByUser(params, req.user);
     return deposit;
   }
 

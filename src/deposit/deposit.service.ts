@@ -4,6 +4,7 @@ import {
   CalculationCompletionQueryType,
   CalculationCompletionType,
   ConfirmDto,
+  DepositByUserDto,
   DepositDto,
   ParameterDto,
 } from './dto';
@@ -274,6 +275,33 @@ export class DepositService {
         data.map((datum) => this.prismaService.deposit.create({ data: datum })),
       );
       return await this.prismaService.deposit.findMany();
+    } catch (error) {
+      if (error.code == 'P2002') {
+        console.log(error);
+        throw new ForbiddenException('Error in credentials');
+      }
+    }
+  }
+
+  async createByUser(params: DepositByUserDto, user: any) {
+    // insert data to database
+
+    const data = {
+      depositDate: new Date(),
+      userId: user.id,
+      amount: params.amount,
+      memo: params.memo,
+      fee: params.fee ? 1 : 0,
+      status: params.isConfirmed ? 1 : 0,
+      isRewarded: params.isRewarded ? 1 : 0,
+      method: params.method ? params.method : 0,
+    };
+    console.log(data);
+    try {
+      await this.prismaService.deposit.create({ data: data });
+      return await this.prismaService.deposit.findMany({
+        where: { userId: Number(user.id) },
+      });
     } catch (error) {
       if (error.code == 'P2002') {
         console.log(error);

@@ -28,6 +28,20 @@ export class DepositDto {
   method?: number;
 }
 
+export class DepositByUserDto {
+  id?: number;
+  depositDate?: string;
+  memo?: string;
+
+  amount: number;
+
+  fee?: boolean;
+  isConfirmed: boolean;
+  isRewarded?: boolean;
+
+  method?: number;
+}
+
 export class ConfirmDto {
   type?: number;
   list: number[];

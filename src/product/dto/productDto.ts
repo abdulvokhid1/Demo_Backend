@@ -2,6 +2,8 @@ export class ParameterDto {
   id?: number;
   name?: string;
   code?: string;
+  catId?: number;
+  isActive?: boolean;
   page?: number;
   limit?: number;
 }
