@@ -15,6 +15,27 @@ export class CategoryService {
           isActive: true,
           parentid: params?.parent || 0,
         },
+        include: {
+          products: {
+            include: {
+              product: {
+                include: {
+                  mainlocal: true,
+                  listlocal: true,
+                  thumbnaillocal: true,
+                  guideLocal: true,
+                  prodLocal: true,
+                  descLocal: true,
+                  extralocal1: true,
+                  extralocal2: true,
+                  extralocal3: true,
+                  extralocal4: true,
+                  extralocal5: true,
+                },
+              },
+            },
+          },
+        },
         orderBy: {
           order: params?.asc ? 'asc' : 'desc',
         },
@@ -25,6 +46,27 @@ export class CategoryService {
         where: {
           depth: params?.depth || 1,
           isActive: true,
+        },
+        include: {
+          products: {
+            include: {
+              product: {
+                include: {
+                  mainlocal: true,
+                  listlocal: true,
+                  thumbnaillocal: true,
+                  guideLocal: true,
+                  prodLocal: true,
+                  descLocal: true,
+                  extralocal1: true,
+                  extralocal2: true,
+                  extralocal3: true,
+                  extralocal4: true,
+                  extralocal5: true,
+                },
+              },
+            },
+          },
         },
         orderBy: {
           order: params?.asc ? 'asc' : 'desc',

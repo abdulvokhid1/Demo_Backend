@@ -88,6 +88,9 @@ export class ProductService {
     params?.code
       ? (query = { ...query, code: { contains: params.code } })
       : noop;
+    params?.isActive != undefined
+      ? (query = { ...query, isActive: params.isActive })
+      : noop;
 
     if (params?.limit) {
       const [total, products] = await this.prismaService.$transaction([
@@ -114,78 +117,6 @@ export class ProductService {
           skip: Number(params.limit) * (Number(params.page) - 1),
         }),
       ]);
-
-      // Promise.all(
-      //   products.map(async (product) => {
-      //     const user_guide_img = await this.prismaService.localfiles.findUnique(
-      //       {
-      //         where: {
-      //           id: product.guide_img_id,
-      //         },
-      //       },
-      //     );
-      //     const prod_img = await this.prismaService.localfiles.findUnique({
-      //       where: {
-      //         id: product.prod_img_id,
-      //       },
-      //     });
-      //
-      //     const desc_img = await this.prismaService.localfiles.findUnique({
-      //       where: {
-      //         id: product.description_img_id,
-      //       },
-      //     });
-      //
-      //     const main_img = await this.prismaService.localfiles.findUnique({
-      //       where: {
-      //         id: product.mainImg,
-      //       },
-      //     });
-      //
-      //     const list_img = await this.prismaService.localfiles.findUnique({
-      //       where: {
-      //         id: product.listImg,
-      //       },
-      //     });
-      //
-      //     const extraImg1 = await this.prismaService.localfiles.findUnique({
-      //       where: {
-      //         id: product.extraImg1,
-      //       },
-      //     });
-      //
-      //     const extraImg2 = await this.prismaService.localfiles.findUnique({
-      //       where: {
-      //         id: product.extraImg2,
-      //       },
-      //     });
-      //
-      //     const extraImg3 = await this.prismaService.localfiles.findUnique({
-      //       where: {
-      //         id: product.extraImg3,
-      //       },
-      //     });
-      //
-      //     const extraImg4 = await this.prismaService.localfiles.findUnique({
-      //       where: {
-      //         id: product.extraImg4,
-      //       },
-      //     });
-      //
-      //     const extraImg5 = await this.prismaService.localfiles.findUnique({
-      //       where: {
-      //         id: product.extraImg5,
-      //       },
-      //     });
-      //
-      //     product = {
-      //       ...product,
-      //       extraImg1d: { ...extraImg1 },
-      //       extraImg2Id: extraImg2,
-      //     };
-      //   }),
-      // );
-
       return {
         total: total,
         products: products,
@@ -198,6 +129,17 @@ export class ProductService {
       where: query,
       include: {
         categories: { include: { category: true } },
+        mainlocal: true,
+        listlocal: true,
+        thumbnaillocal: true,
+        guideLocal: true,
+        prodLocal: true,
+        descLocal: true,
+        extralocal1: true,
+        extralocal2: true,
+        extralocal3: true,
+        extralocal4: true,
+        extralocal5: true,
       },
     });
 
@@ -205,5 +147,45 @@ export class ProductService {
       total: total,
       products: products,
     };
+  }
+
+  async list_product_by_cat(params: ParameterDto) {
+    if (!params || !params.catId)
+      throw new ForbiddenException('NO_CATID_NOT_ENOUGH_INFO');
+    const list = await this.prismaService.categoryProduct.findMany({
+      where: {
+        categoryId: params.catId,
+      },
+      include: {
+        product: true,
+      },
+    });
+    return list;
+  }
+
+  async detail(params: ParameterDto) {
+    if (!params || !params.id)
+      throw new ForbiddenException('PRODUCT_NOT_ENOUGH_INFO');
+
+    const prod = await this.prismaService.product.findUnique({
+      where: {
+        id: params.id,
+      },
+      include: {
+        categories: { include: { category: true } },
+        mainlocal: true,
+        listlocal: true,
+        thumbnaillocal: true,
+        guideLocal: true,
+        prodLocal: true,
+        descLocal: true,
+        extralocal1: true,
+        extralocal2: true,
+        extralocal3: true,
+        extralocal4: true,
+        extralocal5: true,
+      },
+    });
+    return prod;
   }
 }

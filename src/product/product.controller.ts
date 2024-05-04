@@ -30,4 +30,18 @@ export class ProductController {
     const list = await this.productService.list_without_access(parameterDto);
     return list;
   }
+
+  @Post('list_product_by_cat')
+  async list_product_by_cat(@Body() parameterDto: ParameterDto) {
+    // console.log(request.user);
+    const list = await this.productService.list_product_by_cat(parameterDto);
+    return list;
+  }
+
+  @Post('detail')
+  async detail(@Body() params: ParameterDto) {
+    // console.log(request.user);
+    const prod = await this.productService.detail(params);
+    return prod;
+  }
 }
