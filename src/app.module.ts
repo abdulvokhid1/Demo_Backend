@@ -13,6 +13,8 @@ import { CategoryModule } from './category/category.module';
 import { DepositModule } from './deposit/deposit.module';
 import { UploadModule } from './upload/upload.module';
 import { ProductModule } from './product/product.module';
+import { ScheduleModule } from '@nestjs/schedule';
+import { TaskService } from './task/task.service';
 
 @Module({
   imports: [
@@ -30,8 +32,9 @@ import { ProductModule } from './product/product.module';
     DepositModule,
     UploadModule,
     ProductModule,
+    ScheduleModule.forRoot(),
   ],
   controllers: [NoteController],
-  providers: [NoteService],
+  providers: [NoteService, TaskService],
 })
 export class AppModule {}
