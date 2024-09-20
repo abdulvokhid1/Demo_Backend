@@ -3,7 +3,7 @@ import { MyJwtGuard } from '../auth/guard';
 import { GetUser } from '../auth/decorator';
 import { User } from '@prisma/client';
 import { UserService } from './user.service';
-import { ParameterDto, SponsorListDto } from './dto';
+import { ParameterDto, SponsorListDto, UserInfoDto, UserUpdateDto } from './dto';
 
 @Controller('user')
 export class UserController {
@@ -22,6 +22,22 @@ export class UserController {
     // console.log(request.user);
     const users = await this.userService.list(parameterDto);
     return users;
+  }
+
+  @UseGuards(MyJwtGuard)
+  @Post('info')
+  async info(@Body() infoDto: UserInfoDto) {
+    // console.log(request.user);
+    const user = await this.userService.info(infoDto);
+    return user;
+  }
+
+  @UseGuards(MyJwtGuard)
+  @Post('update')
+  async update(@Body() infoDto: UserUpdateDto) {
+    // console.log(request.user);
+    const user = await this.userService.update(infoDto);
+    return user;
   }
 
   // @UseGuards(AuthGuard('jwt'))

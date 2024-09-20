@@ -1,11 +1,93 @@
-import { Injectable } from '@nestjs/common';
+import {
+  ForbiddenException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { ParameterDto, SponsorListDto, SponsorResponseType } from './dto';
+import {
+  ParameterDto,
+  SponsorListDto,
+  SponsorResponseType,
+  UserInfoDto,
+  UserUpdateDto,
+} from './dto';
 import noop from 'noop-ts';
 
 @Injectable()
 export class UserService {
   constructor(private prismaService: PrismaService) {}
+
+  async update(userDto: UserUpdateDto) {
+    // generate password to hashedPassword
+    const existedUser = await this.prismaService.user.findFirst({
+      where: { email: userDto.email },
+    });
+    if (!existedUser) {
+      throw new ForbiddenException('User already exists');
+    }
+    // update data to database
+    try {
+      const newUser = await this.prismaService.user.update({
+        where: { id: userDto.id },
+        data: {
+          email: userDto.email,
+          name: userDto.name,
+          address: userDto.address || '',
+          address1: userDto.address1 || '',
+          addressdoro: userDto.addressdoro || '',
+          zip1: userDto.zip1 || '',
+          zip2: userDto.zip2 || '',
+          centerId: userDto.centerId ? Number(userDto.centerId) : 1,
+          levelId: userDto.levelId ? Number(userDto.levelId) : 1,
+          zonecode: userDto.zonecode || '',
+          mobilephone_number: userDto.mobilephone_number || '',
+          phone_number: userDto.phone_number || '',
+          recomid: userDto.recomid ? Number(userDto.recomid) : undefined,
+          return_bank: userDto.return_bank || '',
+          return_name: userDto.return_name || '',
+          return_account: userDto.return_account || '',
+          // sponid: authDTO.sponid || '',
+        },
+      });
+
+      const recomUser = await this.prismaService.user.findUnique({
+        where: {
+          id: userDto.recomid ? Number(userDto.recomid) : 0,
+        },
+      });
+      if (!recomUser) {
+        return newUser;
+      }
+
+      if (recomUser.sub1) {
+        await this.prismaService.user.update({
+          where: {
+            id: recomUser.id,
+          },
+          data: {
+            sub1: userDto.id,
+          },
+        });
+      } else {
+        if (recomUser.sub2) {
+          await this.prismaService.user.update({
+            where: {
+              id: recomUser.id,
+            },
+            data: {
+              sub2: userDto.id,
+            },
+          });
+        }
+      }
+      return newUser;
+    } catch (error) {
+      if (error.code == 'P2002') {
+        console.log(error);
+        throw new ForbiddenException('Error in credentials');
+      }
+    }
+  }
 
   async list(parameters: ParameterDto) {
     let query = {};
@@ -62,6 +144,30 @@ export class UserService {
       total: total,
       users: users,
     };
+  }
+
+  async info(parameters: UserInfoDto) {
+    if (!parameters || (!parameters.id && !parameters.memberId)) {
+      throw new NotFoundException('Not Parameters Found');
+    }
+    let query = {};
+    parameters.id ? (query = { ...query, id: Number(parameters.id) }) : noop;
+    parameters.memberId
+      ? (query = { ...query, member_id: parameters.memberId })
+      : noop;
+    const result = await this.prismaService.user.findFirst({
+      where: query,
+      include: {
+        center: true,
+        Level: true,
+        recom: true,
+        subs: true,
+      },
+    });
+    if (result) {
+      delete result['hashedPassword'];
+    }
+    return result;
   }
 
   async list_without_access(parameters: ParameterDto) {
