@@ -9,6 +9,19 @@ export class ParameterDto {
   limit?: number;
 }
 
+export class SponsorListDto {
+  memberId?: string;
+}
+
+export class SponsorResponseType {
+  id?: number;
+  name?: string;
+  member_id?: string;
+  recomid?: number;
+  createdAt?: string;
+  level?: string;
+  children?: SponsorResponseType[];
+}
 // export class AuthRegisterDto {
 //   @IsNotEmpty()
 //   name: string;
