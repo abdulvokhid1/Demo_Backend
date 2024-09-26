@@ -12,6 +12,14 @@ export class ParameterDto {
   limit?: number;
 }
 
+export class ParameterListByUserIdDto {
+  id?: number;
+  userName?: string;
+  page?: number;
+
+  limit?: number;
+}
+
 export class DepositDto {
   id?: number;
   depositDate?: string;

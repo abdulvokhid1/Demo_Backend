@@ -5,7 +5,7 @@ import {
   ConfirmDto,
   DepositByUserDto,
   DepositDto,
-  ParameterDto,
+  ParameterDto, ParameterListByUserIdDto,
 } from './dto';
 import { DepositService } from './deposit.service';
 import { RolesGuard } from '../auth/guard/roles.guard';
@@ -39,10 +39,20 @@ export class DepositController {
   }
 
   @UseGuards(MyJwtGuard)
+  @HasRoles(Role.Admin)
   @Post('list')
   async list(@Body() parameterDto: ParameterDto) {
     // console.log(request.user);
     const list = await this.depositService.list(parameterDto);
+    return list;
+  }
+
+  @UseGuards(MyJwtGuard)
+  @HasRoles(Role.Admin)
+  @Post('list_by_userid')
+  async list_by_userid(@Body() parameterDto: ParameterListByUserIdDto) {
+    // console.log(request.user);
+    const list = await this.depositService.listByUserId(parameterDto);
     return list;
   }
 

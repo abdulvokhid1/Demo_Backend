@@ -7,6 +7,7 @@ import {
   DepositByUserDto,
   DepositDto,
   ParameterDto,
+  ParameterListByUserIdDto,
 } from './dto';
 import { noop } from 'rxjs';
 import moment from 'moment-timezone';
@@ -252,6 +253,44 @@ export class DepositService {
       deposits: centers,
     };
   }
+
+  async listByUserId(parameters: ParameterListByUserIdDto) {
+    if (!parameters.id) {
+      throw new ForbiddenException('Not enough parameters - No ID');
+    }
+
+    if (parameters.limit) {
+      const [total, deposit] = await this.prismaService.$transaction([
+        this.prismaService.deposit.count({ where: { userId: parameters.id } }),
+        this.prismaService.deposit.findMany({
+          where: { userId: parameters.id },
+          include: {
+            user: {
+              include: {
+                center: true,
+              },
+            },
+          },
+          take: Number(parameters.limit),
+          skip: Number(parameters.limit) * (Number(parameters.page) - 1),
+        }),
+      ]);
+      return {
+        total: total,
+        deposits: deposit,
+      };
+    }
+    const total = await this.prismaService.deposit.count({
+      where: { userId: parameters.id },
+    });
+    const centers = await this.prismaService.deposit.findMany({});
+    return {
+      where: { userId: parameters.id },
+      total: total,
+      deposits: centers,
+    };
+  }
+
   async update() {}
   async create(params: DepositDto) {
     // insert data to database
