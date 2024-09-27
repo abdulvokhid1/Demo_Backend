@@ -40,6 +40,9 @@ export class AuthService {
           mobilephone_number: authDTO.mobilephone_number || '',
           phone_number: authDTO.phone_number || '',
           recomid: authDTO.recomid ? Number(authDTO.recomid) : 1,
+          return_bank: authDTO.return_bank || '',
+          return_name: authDTO.return_name || '',
+          return_account: authDTO.return_account || '',
           // sponid: authDTO.sponid || '',
         },
       });
