@@ -12,12 +12,34 @@ export class ParameterDto {
   limit?: number;
 }
 
+export class ParameterListByUserIdDto {
+  id?: number;
+  userName?: string;
+  page?: number;
+
+  limit?: number;
+}
+
 export class DepositDto {
   id?: number;
   depositDate?: string;
   memo?: string;
 
   users: number[];
+
+  amount: number;
+
+  fee?: boolean;
+  isConfirmed: boolean;
+  isRewarded?: boolean;
+
+  method?: number;
+}
+
+export class DepositByUserDto {
+  id?: number;
+  depositDate?: string;
+  memo?: string;
 
   amount: number;
 

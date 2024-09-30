@@ -4,8 +4,10 @@ import {
   CalculationCompletionQueryType,
   CalculationCompletionType,
   ConfirmDto,
+  DepositByUserDto,
   DepositDto,
   ParameterDto,
+  ParameterListByUserIdDto,
 } from './dto';
 import { noop } from 'rxjs';
 import moment from 'moment-timezone';
@@ -251,6 +253,44 @@ export class DepositService {
       deposits: centers,
     };
   }
+
+  async listByUserId(parameters: ParameterListByUserIdDto) {
+    if (!parameters.id) {
+      throw new ForbiddenException('Not enough parameters - No ID');
+    }
+
+    if (parameters.limit) {
+      const [total, deposit] = await this.prismaService.$transaction([
+        this.prismaService.deposit.count({ where: { userId: parameters.id } }),
+        this.prismaService.deposit.findMany({
+          where: { userId: parameters.id },
+          include: {
+            user: {
+              include: {
+                center: true,
+              },
+            },
+          },
+          take: Number(parameters.limit),
+          skip: Number(parameters.limit) * (Number(parameters.page) - 1),
+        }),
+      ]);
+      return {
+        total: total,
+        deposits: deposit,
+      };
+    }
+    const total = await this.prismaService.deposit.count({
+      where: { userId: parameters.id },
+    });
+    const centers = await this.prismaService.deposit.findMany({});
+    return {
+      where: { userId: parameters.id },
+      total: total,
+      deposits: centers,
+    };
+  }
+
   async update() {}
   async create(params: DepositDto) {
     // insert data to database
@@ -274,6 +314,33 @@ export class DepositService {
         data.map((datum) => this.prismaService.deposit.create({ data: datum })),
       );
       return await this.prismaService.deposit.findMany();
+    } catch (error) {
+      if (error.code == 'P2002') {
+        console.log(error);
+        throw new ForbiddenException('Error in credentials');
+      }
+    }
+  }
+
+  async createByUser(params: DepositByUserDto, user: any) {
+    // insert data to database
+
+    const data = {
+      depositDate: new Date(),
+      userId: user.id,
+      amount: params.amount,
+      memo: params.memo,
+      fee: params.fee ? 1 : 0,
+      status: params.isConfirmed ? 1 : 0,
+      isRewarded: params.isRewarded ? 1 : 0,
+      method: params.method ? params.method : 0,
+    };
+    console.log(data);
+    try {
+      await this.prismaService.deposit.create({ data: data });
+      return await this.prismaService.deposit.findMany({
+        where: { userId: Number(user.id) },
+      });
     } catch (error) {
       if (error.code == 'P2002') {
         console.log(error);
