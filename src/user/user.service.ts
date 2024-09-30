@@ -170,6 +170,56 @@ export class UserService {
     return result;
   }
 
+  async recommendedList(parameters: ParameterDto) {
+    let query = {};
+    parameters.id ? (query = { ...query, recomid: parameters.id }) : noop;
+
+    if (parameters.limit) {
+      const [total, users] = await this.prismaService.$transaction([
+        this.prismaService.user.count({
+          where: query,
+        }),
+        this.prismaService.user.findMany({
+          where: query,
+          include: {
+            center: true,
+            Level: true,
+            recom: true,
+            subs: true,
+          },
+          take: Number(parameters.limit),
+          skip: Number(parameters.limit) * (Number(parameters.page) - 1),
+        }),
+      ]);
+      users.map((item) => {
+        delete item['hashedPassword'];
+      });
+      return {
+        total: total,
+        users: users,
+      };
+    }
+    const total = await this.prismaService.user.count({
+      where: query,
+    });
+    const users = await this.prismaService.user.findMany({
+      where: query,
+      include: {
+        center: true,
+        Level: true,
+        subs: true,
+        recom: true,
+      },
+    });
+    users.map((item) => {
+      delete item['hashedPassword'];
+    });
+    return {
+      total: total,
+      users: users,
+    };
+  }
+
   async list_without_access(parameters: ParameterDto) {
     let query = {};
     parameters.memberId

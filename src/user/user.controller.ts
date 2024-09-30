@@ -33,6 +33,14 @@ export class UserController {
   }
 
   @UseGuards(MyJwtGuard)
+  @Post('recommended_list')
+  async recommended_list(@Body() infoDto: ParameterDto) {
+    // console.log(request.user);
+    const users = await this.userService.recommendedList(infoDto);
+    return users;
+  }
+
+  @UseGuards(MyJwtGuard)
   @Post('update')
   async update(@Body() infoDto: UserUpdateDto) {
     // console.log(request.user);
