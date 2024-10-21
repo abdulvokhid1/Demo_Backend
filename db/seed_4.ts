@@ -23,6 +23,9 @@ const userList = [
     recom: {
       connect: { id: 2 },
     },
+    spon: {
+      connect: { id: 2 },
+    },
     // sponid: '',
     center: {
       connect: {
@@ -52,6 +55,9 @@ const userList = [
     mobilephone_number: '',
     phone_number: '',
     recom: {
+      connect: { id: 2 },
+    },
+    spon: {
       connect: { id: 2 },
     },
     // sponid: '',
@@ -85,6 +91,9 @@ const userList = [
     recom: {
       connect: { id: 2 },
     },
+    spon: {
+      connect: { id: 2 },
+    },
     // sponid: '',
     center: {
       connect: {
@@ -114,6 +123,9 @@ const userList = [
     mobilephone_number: '',
     phone_number: '',
     recom: {
+      connect: { id: 2 },
+    },
+    spon: {
       connect: { id: 2 },
     },
     // sponid: '',

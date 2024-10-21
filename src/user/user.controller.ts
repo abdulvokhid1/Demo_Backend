@@ -3,7 +3,12 @@ import { MyJwtGuard } from '../auth/guard';
 import { GetUser } from '../auth/decorator';
 import { User } from '@prisma/client';
 import { UserService } from './user.service';
-import { ParameterDto, SponsorListDto, UserInfoDto, UserUpdateDto } from './dto';
+import {
+  ParameterDto,
+  SponsorListDto,
+  UserInfoDto,
+  UserUpdateDto,
+} from './dto';
 
 @Controller('user')
 export class UserController {
@@ -34,7 +39,7 @@ export class UserController {
 
   @UseGuards(MyJwtGuard)
   @Post('recommended_list')
-  async recommended_list(@Body() infoDto: ParameterDto) {
+  async recommendedList(@Body() infoDto: ParameterDto) {
     // console.log(request.user);
     const users = await this.userService.recommendedList(infoDto);
     return users;
@@ -58,9 +63,21 @@ export class UserController {
 
   @UseGuards(MyJwtGuard)
   @Post('sponsors')
-  async sponsors(@Body() params: SponsorListDto) {
+  async getSponsors(@Body() params: SponsorListDto) {
     // console.log(request.user);
     const sponsors = await this.userService.getSponsors(params);
     return sponsors;
+  }
+
+  @UseGuards(MyJwtGuard)
+  @Post('limited-sponsors')
+  async getLimitedSponsors(@Body() params: SponsorListDto) {
+    const sponsors = await this.userService.getLimitedSponsors(params);
+    return sponsors;
+  }
+
+  @Post('delete')
+  public async deletMember(@Body('id' as string) id: string) {
+    return await this.userService.deleteMember(id);
   }
 }

@@ -47,13 +47,15 @@ model User {
   recomid            Int?
   recom              User?   @relation("Recommendation", fields: [recomid], references: [id])
   subs               User[]  @relation("Recommendation")
+  spon               User?   @relation("Sponsorship", fields: [sponid], references: [id])
+  sponsoredSubs      User[]  @relation("Sponsorship") // Reverse relation for sponsorship
   sub1               Int?    @default(0)
   sub2               Int?    @default(0)
   sponid             Int?
   return_bank        String?
   return_account     String?
   return_name        String?
-
+  isDeleted Boolean  @default(false) // Add this field for soft delete
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @updatedAt
   // relationship

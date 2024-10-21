@@ -23,6 +23,9 @@ const userList = [
     recom: {
       connect: { id: 4 },
     },
+    spon: {
+      connect: { id: 4 },
+    },
     // sponid: '',
     center: {
       connect: {
@@ -52,6 +55,9 @@ const userList = [
     mobilephone_number: '',
     phone_number: '',
     recom: {
+      connect: { id: 4 },
+    },
+    spon: {
       connect: { id: 4 },
     },
     // sponid: '',
@@ -85,6 +91,9 @@ const userList = [
     recom: {
       connect: { id: 4 },
     },
+    spon: {
+      connect: { id: 4 },
+    },
     // sponid: '',
     center: {
       connect: {
@@ -114,6 +123,9 @@ const userList = [
     mobilephone_number: '',
     phone_number: '',
     recom: {
+      connect: { id: 4 },
+    },
+    spon: {
       connect: { id: 4 },
     },
     // sponid: '',
@@ -147,6 +159,9 @@ const userList = [
     recom: {
       connect: { id: 4 },
     },
+    spon: {
+      connect: { id: 4 },
+    },
     // sponid: '',
     center: {
       connect: {
@@ -176,6 +191,9 @@ const userList = [
     mobilephone_number: '',
     phone_number: '',
     recom: {
+      connect: { id: 4 },
+    },
+    spon: {
       connect: { id: 4 },
     },
     // sponid: '',
@@ -209,6 +227,9 @@ const userList = [
     recom: {
       connect: { id: 4 },
     },
+    spon: {
+      connect: { id: 4 },
+    },
     // sponid: '',
     center: {
       connect: {
@@ -240,6 +261,9 @@ const userList = [
     recom: {
       connect: { id: 4 },
     },
+    spon: {
+      connect: { id: 4 },
+    },
     // sponid: '',
     center: {
       connect: {
@@ -269,6 +293,9 @@ const userList = [
     mobilephone_number: '',
     phone_number: '',
     recom: {
+      connect: { id: 4 },
+    },
+    spon: {
       connect: { id: 4 },
     },
     // sponid: '',

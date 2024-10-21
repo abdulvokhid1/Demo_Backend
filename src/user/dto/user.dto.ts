@@ -1,6 +1,6 @@
 // import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
 
-import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
+import { IsBoolean, IsEmail, IsNotEmpty, IsString } from 'class-validator';
 
 export class UserUpdateDto {
   @IsNotEmpty()
@@ -20,8 +20,14 @@ export class UserUpdateDto {
   @IsNotEmpty()
   mobilephone_number: string;
 
+  // @IsBoolean()
+  isDeleted: boolean;
+
   // @IsString()
   phone_number: string;
+
+  // @IsString()
+  member_id: string;
 
   // @IsString()
   zip1: string;
@@ -51,7 +57,7 @@ export class UserUpdateDto {
   recomid: number;
 
   // @IsString()
-  // sponid: number;
+  sponid: number;
 
   // @IsString()
   return_bank: string;
@@ -86,6 +92,7 @@ export class SponsorResponseType {
   name?: string;
   member_id?: string;
   recomid?: number;
+  sponid?: number;
   createdAt?: string;
   level?: string;
   children?: SponsorResponseType[];

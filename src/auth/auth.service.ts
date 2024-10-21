@@ -28,6 +28,7 @@ export class AuthService {
           email: authDTO.email,
           hashedPassword: hashedPassword,
           name: authDTO.name,
+          member_id: authDTO.member_id,
           role: 'user',
           address: authDTO.address || '',
           address1: authDTO.address1 || '',
@@ -40,6 +41,7 @@ export class AuthService {
           mobilephone_number: authDTO.mobilephone_number || '',
           phone_number: authDTO.phone_number || '',
           recomid: authDTO.recomid ? Number(authDTO.recomid) : 1,
+          sponid: authDTO.sponid ? Number(authDTO.sponid) : 1,
           return_bank: authDTO.return_bank || '',
           return_name: authDTO.return_name || '',
           return_account: authDTO.return_account || '',
@@ -48,13 +50,13 @@ export class AuthService {
       });
 
       const inserted_id = newUser.id;
-      const memberId = 'a' + inserted_id.toString().padStart(6, '0');
+      // const memberId = 'a' + inserted_id.toString().padStart(6, '0');
       const user = await this.prismaService.user.update({
         where: {
           id: inserted_id,
         },
         data: {
-          member_id: memberId,
+          member_id: authDTO.member_id,
         },
         select: {
           id: true,
@@ -64,7 +66,11 @@ export class AuthService {
           mobilephone_number: true,
           phone_number: true,
           sponid: true,
+          recomid: true,
           recom: {
+            select: { id: true, name: true },
+          },
+          spon: {
             select: { id: true, name: true },
           },
           Level: {
@@ -107,6 +113,28 @@ export class AuthService {
           });
         }
       }
+
+      // Assign sub-users under sponid, similar to recomid logic
+      const sponsorUser = await this.prismaService.user.findUnique({
+        where: { id: authDTO.sponid ? Number(authDTO.sponid) : 1 },
+      });
+
+      if (sponsorUser) {
+        if (!sponsorUser.sub1) {
+          await this.prismaService.user.update({
+            where: { id: sponsorUser.id },
+            data: { sub1: inserted_id },
+          });
+        } else if (!sponsorUser.sub2) {
+          await this.prismaService.user.update({
+            where: { id: sponsorUser.id },
+            data: { sub2: inserted_id },
+          });
+        } else {
+          // Optional: Handle the case where both sub1 and sub2 are already populated
+          throw new ForbiddenException('User already has two sub-users');
+        }
+      }
       return {
         // access_token: this.signJwtToken(user.id, user.email),
         profile: {
@@ -139,6 +167,7 @@ export class AuthService {
           hashedPassword: hashedPassword,
           name: authDTO.name,
           role: 'user',
+          isDeleted: false,
           address: authDTO.address || '',
           address1: authDTO.address1 || '',
           addressdoro: authDTO.addressdoro || '',
@@ -150,6 +179,7 @@ export class AuthService {
           mobilephone_number: authDTO.mobilephone_number || '',
           phone_number: authDTO.phone_number || '',
           recomid: authDTO.recomid ? Number(authDTO.recomid) : 1,
+          sponid: authDTO.sponid ? Number(authDTO.sponid) : 1,
           return_bank: authDTO.return_bank || '',
           return_name: authDTO.return_name || '',
           return_account: authDTO.return_account || '',
@@ -174,7 +204,11 @@ export class AuthService {
           mobilephone_number: true,
           phone_number: true,
           sponid: true,
+          recomid: true,
           recom: {
+            select: { id: true, name: true },
+          },
+          spon: {
             select: { id: true, name: true },
           },
           Level: {
@@ -215,6 +249,28 @@ export class AuthService {
               sub2: inserted_id,
             },
           });
+        }
+      }
+
+      // Assign sub-users under sponid, similar to recomid logic
+      const sponsorUser = await this.prismaService.user.findUnique({
+        where: { id: authDTO.sponid ? Number(authDTO.sponid) : undefined },
+      });
+
+      if (sponsorUser) {
+        if (!sponsorUser.sub1) {
+          await this.prismaService.user.update({
+            where: { id: sponsorUser.id },
+            data: { sub1: inserted_id },
+          });
+        } else if (!sponsorUser.sub2) {
+          await this.prismaService.user.update({
+            where: { id: sponsorUser.id },
+            data: { sub2: inserted_id },
+          });
+        } else {
+          // Optional: Handle the case where both sub1 and sub2 are already populated
+          throw new ForbiddenException('User already has two sub-users');
         }
       }
       return {
@@ -273,7 +329,11 @@ export class AuthService {
         mobilephone_number: true,
         phone_number: true,
         sponid: true,
+        recomid: true,
         recom: {
+          select: { id: true, name: true },
+        },
+        spon: {
           select: { id: true, name: true },
         },
         Level: {
